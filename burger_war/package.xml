@@ -46,10 +46,12 @@
   <run_depend>rospy</run_depend>
   <run_depend>std_msgs</run_depend>
 
-
-  <!-- The export tag contains other, unspecified, tags -->
+  <run_depend>gazebo_ros</run_depend>
   <export>
-    <!-- Other tools can request additional information be placed here -->
-
+    <gazebo_ros gazebo_media_path="${prefix}/world" />
+    <gazebo_ros gazebo_model_path="${prefix}/models" /> 
   </export>
+
+
+
 </package>
