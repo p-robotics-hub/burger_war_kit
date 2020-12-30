@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Vue.js todo app</title>
+<!--  <script src="vue.js"></script>
+  <script src="vue-resource.js"></script>-->
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
+
+<!--  <script src="https://cdn.jsdelivr.net/npm/vue-resource@1.5.1"></script>-->
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+</head>
+<body>    
+
+
+
+    <div id="app">
+      players: 
+      <ul>
+      <li>blue:  {{ info.players.b }} : {{info.scores.b}}</li>
+      
+      <li>red : {{ info.players.r }} : {{info.scores.r}}  </li>
+    </ul>
+    state : {{info.state}}
+    <br>
+    time : {{info.time}}
+    </div>
+
+    <script type="text/javascript">
+      vm=new Vue({
+        el: '#app',
+        data () {
+          return {
+            info: null
+          }
+        },
+        mounted () {
+          axios
+            .get('/warState')
+            .then(response => (this.info = response.data)).catch(error => console.log(error))
+        },
+        destroyed: function () {
+          window.removeEventListener('popstate', this.changeState, false)
+          clearInterval(this.updateMessageTimer)
+        }  
+      });
+      
+      setTimeout("location.reload()",1000);
+
+      </script>
+      
+</body>
+</html>

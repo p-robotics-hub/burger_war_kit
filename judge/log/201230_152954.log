@@ -1,0 +1,66 @@
+GET /reset 127.0.0.1
+RESPONSE /reset 127.0.0.1resetinf60
+updateTime
+POST /warState/targets 127.0.0.1{u'point': 3, u'name': u'BL_B', u'id': u'0011'}
+RESPONSE /warState/targets 127.0.0.1{'name': u'BL_B'}
+POST /warState/targets 127.0.0.1{u'point': 3, u'name': u'BL_L', u'id': u'0012'}
+RESPONSE /warState/targets 127.0.0.1{'name': u'BL_L'}
+POST /warState/targets 127.0.0.1{u'point': 3, u'name': u'BL_R', u'id': u'0013'}
+RESPONSE /warState/targets 127.0.0.1{'name': u'BL_R'}
+POST /warState/targets 127.0.0.1{u'point': 3, u'name': u'RE_B', u'id': u'0021'}
+RESPONSE /warState/targets 127.0.0.1{'name': u'RE_B'}
+POST /warState/targets 127.0.0.1{u'point': 3, u'name': u'RE_L', u'id': u'0022'}
+RESPONSE /warState/targets 127.0.0.1{'name': u'RE_L'}
+POST /warState/targets 127.0.0.1{u'point': 3, u'name': u'RE_R', u'id': u'0023'}
+RESPONSE /warState/targets 127.0.0.1{'name': u'RE_R'}
+POST /warState/targets 127.0.0.1{u'point': 1, u'name': u'Tomato_N', u'id': u'1001'}
+RESPONSE /warState/targets 127.0.0.1{'name': u'Tomato_N'}
+POST /warState/targets 127.0.0.1{u'point': 1, u'name': u'Tomato_S', u'id': u'1002'}
+RESPONSE /warState/targets 127.0.0.1{'name': u'Tomato_S'}
+POST /warState/targets 127.0.0.1{u'point': 1, u'name': u'Omelette_N', u'id': u'2001'}
+RESPONSE /warState/targets 127.0.0.1{'name': u'Omelette_N'}
+POST /warState/targets 127.0.0.1{u'point': 1, u'name': u'Omelette_S', u'id': u'2002'}
+RESPONSE /warState/targets 127.0.0.1{'name': u'Omelette_S'}
+POST /warState/targets 127.0.0.1{u'point': 1, u'name': u'Pudding_N', u'id': u'3001'}
+RESPONSE /warState/targets 127.0.0.1{'name': u'Pudding_N'}
+POST /warState/targets 127.0.0.1{u'point': 1, u'name': u'Pudding_S', u'id': u'3002'}
+RESPONSE /warState/targets 127.0.0.1{'name': u'Pudding_S'}
+POST /warState/targets 127.0.0.1{u'point': 1, u'name': u'OctopusWiener_N', u'id': u'4001'}
+RESPONSE /warState/targets 127.0.0.1{'name': u'OctopusWiener_N'}
+POST /warState/targets 127.0.0.1{u'point': 1, u'name': u'OctopusWiener_S', u'id': u'4002'}
+RESPONSE /warState/targets 127.0.0.1{'name': u'OctopusWiener_S'}
+POST /warState/targets 127.0.0.1{u'point': 1, u'name': u'FriedShrimp_N', u'id': u'5001'}
+RESPONSE /warState/targets 127.0.0.1{'name': u'FriedShrimp_N'}
+POST /warState/targets 127.0.0.1{u'point': 1, u'name': u'FriedShrimp_E', u'id': u'5002'}
+RESPONSE /warState/targets 127.0.0.1{'name': u'FriedShrimp_E'}
+POST /warState/targets 127.0.0.1{u'point': 1, u'name': u'FriedShrimp_W', u'id': u'5003'}
+RESPONSE /warState/targets 127.0.0.1{'name': u'FriedShrimp_W'}
+POST /warState/targets 127.0.0.1{u'point': 1, u'name': u'FriedShrimp_S', u'id': u'5004'}
+RESPONSE /warState/targets 127.0.0.1{'name': u'FriedShrimp_S'}
+POST /warState/players 127.0.0.1{u'name': u'ishiro'}
+RESPONSE /warState/players 127.0.0.1{'side': 'r', 'name': u'ishiro'}
+POST /warState/players 127.0.0.1{u'name': u'jiro'}
+RESPONSE /warState/players 127.0.0.1{'side': 'b', 'name': u'jiro'}
+POST /submits 127.0.0.1{u'id': u'0000', u'name': u'ishiro', u'side': u'r'}
+updateTime
+RESPONSE /submits 127.0.0.1{'new': False, 'mutch': True, 'target': None, 'error': 'success set ready'}
+POST /submits 127.0.0.1{u'id': u'0000', u'name': u'jiro', u'side': u'b'}
+updateTime
+RESPONSE /submits 127.0.0.1{'new': False, 'mutch': True, 'target': None, 'error': 'success set ready'}
+POST /warState/state 127.0.0.1{u'state': u'running'}
+setState
+RESPONSE /warState/state 127.0.0.1{'state': u'running'}
+updateTime
+passed_Time 1.01236200333
+POST /submits 127.0.0.1{u'id': u'4001', u'name': u'ishiro', u'side': u'r'}
+updateTime
+passed_Time 2.02581214905
+RESPONSE /submits 127.0.0.1{'new': True, 'mutch': True, 'target': {'player': u'r', 'name': u'OctopusWiener_N', 'point': 1}, 'error': 'no error'}
+POST /submits 127.0.0.1{u'id': u'3002', u'name': u'ishiro', u'side': u'r'}
+updateTime
+passed_Time 3.03885698318
+RESPONSE /submits 127.0.0.1{'new': True, 'mutch': True, 'target': {'player': u'r', 'name': u'Pudding_S', 'point': 1}, 'error': 'no error'}
+POST /submits 127.0.0.1{u'id': u'5003', u'name': u'ishiro', u'side': u'r'}
+updateTime
+passed_Time 4.05152606964
+RESPONSE /submits 127.0.0.1{'new': True, 'mutch': True, 'target': {'player': u'r', 'name': u'FriedShrimp_W', 'point': 1}, 'error': 'no error'}
