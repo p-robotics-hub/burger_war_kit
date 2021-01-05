@@ -245,5 +245,17 @@
   </link>
 </model>
 
+<!-- YELLOW disc invisible obstable -->
+<include>
+  <name>disc_0</name>
+  <pose>1 0 0.0025 0 0 0</pose>
+  <uri>model://disc</uri>
+</include>
+<include>
+  <name>disc_1</name>
+  <pose>-1 0 0.0025 0 0 0</pose>
+  <uri>model://disc</uri>
+</include>
+
 </world>
 </sdf>
