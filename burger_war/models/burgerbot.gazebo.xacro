@@ -52,11 +52,13 @@
       <commandTopic>limited_cmd_vel</commandTopic>
       <odometryTopic>odom</odometryTopic>
       <odometryFrame>odom</odometryFrame>
-      <odometrySource>world</odometrySource>
+<!--      <odometrySource>world</odometrySource>-->
+      <odometrySource>encoder</odometrySource>
       <publishOdomTF>true</publishOdomTF>
       <robotBaseFrame>base_footprint</robotBaseFrame>
       <publishWheelTF>false</publishWheelTF>
-      <publishTf>true</publishTf>
+<!--      <publishTf>true</publishTf>-->
+      <publishTf>false</publishTf>
       <publishWheelJointState>true</publishWheelJointState>
       <legacyMode>false</legacyMode>
       <updateRate>30</updateRate>
@@ -70,6 +72,7 @@
     </plugin>
   </gazebo>
 
+<!--
   <gazebo>
     <plugin name="imu_plugin" filename="libgazebo_ros_imu.so">
       <alwaysOn>true</alwaysOn>
@@ -96,6 +99,19 @@
           </accel>
         </noise>
       </imu>
+    </plugin>
+  </gazebo>
+-->
+
+  <gazebo>
+    <plugin name="imu_plugin" filename="libhector_gazebo_ros_imu.so">
+      <alwaysOn>true</alwaysOn>
+      <bodyName>imu_link</bodyName>
+      <frameName>imu_link</frameName>
+      <topicName>imu</topicName>
+      <serviceName>imu_service</serviceName>
+      <gaussianNoise>0.0</gaussianNoise>
+      <updateRate>200</updateRate>
     </plugin>
   </gazebo>
 
