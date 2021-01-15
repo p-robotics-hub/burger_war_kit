@@ -4,7 +4,7 @@
 # enemy.py
 # write by hiroki ikeuchi @hotic06
 
-
+import sys
 import math
 import rospy
 import tf
@@ -178,6 +178,8 @@ class CalcOdom():
                 r.sleep()
             except rospy.exceptions.ROSTimeMovedBackwardsException:
                 self.reset_pose(self.initial_pose)
+            except rospy.exceptions.ROSInterruptException:
+                sys.exit(0)
 
 if __name__ == '__main__':
 
