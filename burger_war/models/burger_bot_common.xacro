@@ -15,7 +15,7 @@
       <origin xyz="-0.032 0 0.00875" rpy="0 0 0"/>
       <geometry>
         <!--<mesh filename="package://turtlebot3_description/meshes/bases/burger_base.stl" scale="0.001 0.001 0.001"/>-->
-        <mesh filename="model://burger_bot/burger_bot_cover.stl" scale="0.001 0.001 0.001"/>
+        <mesh filename="package://burger_war/models/burger_bot/burger_bot_cover.stl" scale="0.001 0.001 0.001"/>
       </geometry>
       <material name="light_black"/>
     </visual>
@@ -24,6 +24,42 @@
       <origin xyz="-0.032 0 0.07875" rpy="0 0 0"/>
       <geometry>
         <box size="0.178 0.116 0.13"/> <!-- <box size="0.140 0.140 0.143"/> -->
+      </geometry>
+    </collision>
+    <collision>
+      <origin xyz="-0.032 0.0885 0.10125" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.116 0.001 0.085"/>
+      </geometry>
+    </collision>
+    <collision>
+      <origin xyz="-0.032 -0.0885 0.10125" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.116 0.001 0.085"/>
+      </geometry>
+    </collision>
+    <collision>
+      <origin xyz="-0.10535 0.07335 0.07875" rpy="0 0 0.785398163"/>
+      <geometry>
+        <box size="0.04243 0.001 0.13"/>
+      </geometry>
+    </collision>
+    <collision>
+      <origin xyz="-0.10535 -0.07335 0.07875" rpy="0 0 -0.785398163"/>
+      <geometry>
+        <box size="0.04243 0.001 0.13"/>
+      </geometry>
+    </collision>
+    <collision>
+      <origin xyz="0.04138 0.07335 0.10125" rpy="0 0 -0.785398163"/>
+      <geometry>
+        <box size="0.04243 0.001 0.085"/>
+      </geometry>
+    </collision>
+    <collision>
+      <origin xyz="0.04138 -0.07335 0.10125" rpy="0 0 0.785398163"/>
+      <geometry>
+        <box size="0.04243 0.001 0.085"/>
       </geometry>
     </collision>
 
