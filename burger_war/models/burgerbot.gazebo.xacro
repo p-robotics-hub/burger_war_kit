@@ -36,12 +36,12 @@
   </gazebo>
 
   <gazebo reference="caster_back_link">
-    <mu1>0.01</mu1>
-    <mu2>0.01</mu2>
-    <kp>1000000.0</kp>
-    <kd>100.0</kd>
-    <minDepth>0.001</minDepth>
-    <maxVel>1.0</maxVel>
+    <mu1>0.0001</mu1>
+    <mu2>0.0001</mu2>
+    <kp>1e+12</kp><!--1000000.0-->
+    <kd>1.0</kd><!--100-->
+    <minDepth>0.000001</minDepth><!--0.001-->
+    <maxVel>0.0001</maxVel><!--1.0-->
     <material>Gazebo/FlatBlack</material>
   </gazebo>
 
