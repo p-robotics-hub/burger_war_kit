@@ -73,7 +73,7 @@ RUN sudo rosdep init && \
 
 # 補助スクリプトのコピー
 #------------------------------------------------
-COPY scripts /home/${USERNAME}/scripts
+COPY ./scripts /home/${USERNAME}/scripts
 RUN sudo chown -R ${USERNAME}:${USERNAME} /home/${USERNAME}/scripts \
     && chmod -R +x /home/${USERNAME}/scripts
 
@@ -81,19 +81,20 @@ RUN sudo chown -R ${USERNAME}:${USERNAME} /home/${USERNAME}/scripts \
 # ワークスペース作成
 #------------------------------------------------
 ARG ROBOCON_WS=/home/${USERNAME}/catkin_ws
-RUN mkdir -p ${ROBOCON_WS}/src
 
 
 # コンテナ起動時の設定
 #------------------------------------------------
-# 永続化したい設定をbashrcに追加
-COPY templates/bashrc_config /home/${USERNAME}/bashrc_config
-RUN cat /home/${USERNAME}/bashrc_config | sed "s@{ROBOCON_WS}@$ROBOCON_WS@g" >> ~/.bashrc \
-    && rm /home/${USERNAME}/bashrc_config
-
 # 必要なファイルを展開
-COPY templates/.ignition /home/${USERNAME}/.ignition
-RUN sudo chown -R ${USERNAME}:${USERNAME} /home/${USERNAME}/.ignition
+COPY ./templates/* /home/${USERNAME}/
+RUN sudo chown -R ${USERNAME}:${USERNAME} /home/${USERNAME}/
+
+# 永続化したい設定を.bashrc/.bash_profileに追加
+RUN cat /home/${USERNAME}/export_env \
+    | sed "s@{{ROBOCON_WS}}@${ROBOCON_WS}@g" \
+    | tee -a /home/${USERNAME}/.bashrc \
+          >> /home/${USERNAME}/.bash_profile \
+    && rm /home/${USERNAME}/export_env
 
 # 環境変数の設定
 ENV TZ Asia/Tokyo
@@ -102,10 +103,9 @@ ENV TZ Asia/Tokyo
 WORKDIR ${ROBOCON_WS}
 
 # 起動時の実行コマンドの指定
-COPY  entrypoint.sh /entrypoint.sh
+COPY ./entrypoint.sh /entrypoint.sh
 RUN sudo chown ${USERNAME}:${USERNAME} /entrypoint.sh \
     && chmod +x /entrypoint.sh \
     && sudo sed -i'' -e "s/^\(DEVELOPER_NAME\)=.*$/\1=${USERNAME}/g" /entrypoint.sh
 ENTRYPOINT [ "/entrypoint.sh" ]
-CMD [ "bash" ]
-
+CMD [ "bash" "-l" ]

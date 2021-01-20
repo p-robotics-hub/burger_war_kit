@@ -1,4 +1,4 @@
-#!/bin/bash -eu
+#!/bin/bash
 set -e
 set -u
 
@@ -7,7 +7,7 @@ BASE_KIT_REPOSITORY='https://github.com/p-robotics-hub/burger_war_kit.git'
 
 # 既にワークスペースが存在する場合は、ユーザーに確認して削除
 if [ -e "${WORKSPACE}/src/CMakeLists.txt" ]; then
-  read -p "${WORKSPACE}は既に存在します。削除しますか？(yes/no)" yesno
+  read -p "${WORKSPACE}は既に存在します。削除して再度ワークスペースの初期化を行いますか？(yes/no)" yesno
   case "$yesno" in
     yes ) rm -vf "${WORKSPACE}/.catkin_workspace"
           rm -vf "${WORKSPACE}/src/CMakeLists.txt"
@@ -20,9 +20,6 @@ if [ -e "${WORKSPACE}/src/CMakeLists.txt" ]; then
           ;;
   esac
 fi
-
-source /opt/ros/${ROS_DISTRO}/setup.bash
-source "${HOME}/.bashrc"
 
 # ワークスペースの作成
 [ -d ${WORKSPACE}/src ] || mkdir -p ${WORKSPACE}/src
