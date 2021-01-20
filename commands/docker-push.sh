@@ -18,7 +18,7 @@ do
 done
 
 # docker login
-bash ${SCRIPT_DIR}/docker-login.sh ${LOGIN_USER}
+bash ${SCRIPT_DIR}/docker-login.sh
 
 # add tag
 docker tag ${KIT_DOCKER_IMAGE_NAME} ${REGISTRY_URL}/${KIT_DOCKER_IMAGE_NAME}:${IMAGE_VERSION}
