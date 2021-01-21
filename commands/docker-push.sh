@@ -7,7 +7,7 @@
 #+  $0 [-v イメージのバージョン] [-h]
 #+
 #-[OPTIONS]
-#-  -v version    'docker build -t'で指定するイメージのバージョンを指定 (default: latest)
+#-  -v version    'docker tag -t'で指定するイメージのバージョンを指定 (default: latest)
 #-  -h            このヘルプを表示
 #-
 ###############################################################################
@@ -58,9 +58,6 @@ shift $((OPTIND - 1))
 
 # イメージにタグ付けしてpushする
 #------------------------------------------------
-# docker login
-bash ${SCRIPT_DIR}/docker-login.sh
-
 # add tag
 docker tag ${KIT_DOCKER_IMAGE_NAME} ${REGISTRY_URL}/${KIT_DOCKER_IMAGE_NAME}:${IMAGE_VERSION}
 

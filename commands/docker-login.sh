@@ -1,13 +1,15 @@
 #!/bin/bash
 ###############################################################################
 #-ghcr.ioにログインする
-#-予めアクセストークンを保存したファイル(*1)を用意しておく必要がある
-#-(*1) デフォルトでは、$HOME/.github-token
+#-予めユーザ(*1)のアクセストークンを保存したファイル(*2)を用意しておく必要がある
+#-(*1) デフォルトでは、$(git config user.email)
+#-(*2) デフォルトでは、$HOME/.github-token
 #-
 #+[USAGE]
-#+  $0 [-f アクセストークンファイル] [-h]
+#+  $0 [-u リポジトリへのログインユーザ] [-f アクセストークンファイル] [-h]
 #+
 #-[OPTIONS]
+#-  -u user       'docker login -u'でログインするユーザを指定 (default: $(git config user.email))
 #-  -f file-path  アクセストークンを保存したファイルパスを指定 (default: $HOME/.github-token)
 #-  -h            このヘルプを表示
 #-
@@ -40,9 +42,13 @@ source "${SCRIPT_DIR}/config.sh"
 
 # オプション・引数解析
 #------------------------------------------------
-while getopts f:h OPT
+LOGIN_USER=$(git config user.email)
+while getopts u:f:h OPT
 do
   case $OPT in
+    u  ) # Dockerイメージのバージョン指定
+      LOGIN_USER="${OPTARG}"
+      ;;
     f  ) # パスワードファイルのパスを指定 
       GITHUB_TOKEN_FILE="${OPTARG}"
       ;;
@@ -66,5 +72,5 @@ fi
 #------------------------------------------------
 cat "${GITHUB_TOKEN_FILE}" \
   | docker login ${REGISTRY_ROOT} \
-      --username $(git config user.email) \
+      --username ${LOGIN_USER} \
       --password-stdin
