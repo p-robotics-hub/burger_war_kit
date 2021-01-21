@@ -2,9 +2,26 @@
 set -e
 set -u
 
-# ワークスペースディレクトリの設定
-WORKSPACE=${HOME}/catkin_ws
+# オプション・引数解析
+#------------------------------------------------
+WORKSPACE=$HOME/catkin_ws
+while getopts w: OPT
+do
+  case $OPT in
+    w  ) # ワークスペースディレクトリの設定"
+      WORKSPACE=${OPTARG}
+      ;;
+    \? ) # 不正オプション時
+      exit 1
+      ;;
+  esac
+done
+shift $((OPTIND - 1))
+
+MAKE_OPTION="$@"
 
 # ワークスペースのビルド
+#------------------------------------------------
 cd ${WORKSPACE}
-catkin_make
+set -x
+catkin_make ${MAKE_OPTION}
