@@ -86,7 +86,7 @@ ARG ROBOCON_WS=/home/${USERNAME}/catkin_ws
 # コンテナ起動時の設定
 #------------------------------------------------
 # 必要なファイルを展開
-COPY ./templates/* /home/${USERNAME}/
+COPY ./templates/ /home/${USERNAME}/
 RUN sudo chown -R ${USERNAME}:${USERNAME} /home/${USERNAME}/
 
 # 永続化したい設定を.bashrc/.bash_profileに追加

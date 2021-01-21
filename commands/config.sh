@@ -2,11 +2,13 @@
 # Repository config values
 #----------------------------------------------------------
 # Dockerイメージを登録するレジストリのURL
+# $REGISTRY_URL/$KIT_DOCKER_IMAGE_NAME[:version] がURLとなる
 REGISTRY_ROOT=ghcr.io
 REGISTRY_URL=${REGISTRY_ROOT}/p-robotics-hub
 
 # Dockerイメージ名
 KIT_DOCKER_IMAGE_NAME=burger-war-kit
+KIT_DOCKER_CONTAINER_NAME=${KIT_DOCKER_IMAGE_NAME}
 
 #----------------------------------------------------------
 # Local config values

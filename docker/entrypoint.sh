@@ -10,6 +10,6 @@ sudo groupmod -g ${HOST_GROUP_ID} ${DEVELOPER_NAME}
 
 # setup ros environment
 # source "${HOME}/.bashrc"
-source "/opt/ros/$ROS_DISTRO/setup.bash"
-#exec /bin/bash -c "$*"
+# source "/opt/ros/$ROS_DISTRO/setup.bash"
+# exec /bin/bash -l -c "$*"
 exec "$@"
