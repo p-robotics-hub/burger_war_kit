@@ -7,7 +7,8 @@ BASE_KIT_REPOSITORY='https://github.com/p-robotics-hub/burger_war_kit.git'
 
 # 既にワークスペースが存在する場合は、ユーザーに確認して削除
 if [ -e "${WORKSPACE}/src/CMakeLists.txt" ]; then
-  read -p "${WORKSPACE}は既に存在します。削除して再度ワークスペースの初期化を行いますか？(yes/no)" yesno
+  echo "${WORKSPACE}は既に存在します。"
+  read -p "削除して再度ワークスペースの初期化を行いますか？(yes/no): " yesno
   case "$yesno" in
     yes ) rm -vf "${WORKSPACE}/.catkin_workspace"
           rm -vf "${WORKSPACE}/src/CMakeLists.txt"
