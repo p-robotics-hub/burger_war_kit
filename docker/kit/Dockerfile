@@ -16,6 +16,7 @@ RUN apt-get update -q && apt-get upgrade -yq && apt-get install -y --no-install-
         git \
         lsb-release \
         tzdata \
+        gosu \
     && pip install --upgrade pip \
     && rm -rf /var/lib/apt/lists/*
 
@@ -60,21 +61,19 @@ RUN useradd --create-home --home-dir /home/${USERNAME} --shell /bin/bash --user-
     && echo ${USERNAME}:${USERNAME} | chpasswd \
     && echo "${USERNAME} ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 
-USER ${USERNAME}
-
 
 # ROSの初期化
 #------------------------------------------------
 RUN test -f /etc/ros/rosdep/sources.list.d/20-default.list && \
-    sudo rm /etc/ros/rosdep/sources.list.d/20-default.list
-RUN sudo rosdep init && \
-    rosdep update
+    rm /etc/ros/rosdep/sources.list.d/20-default.list
+RUN rosdep init && \
+    gosu ${USERNAME} rosdep update
 
 
 # 補助スクリプトのコピー
 #------------------------------------------------
 COPY ./scripts /home/${USERNAME}/scripts
-RUN sudo chown -R ${USERNAME}:${USERNAME} /home/${USERNAME}/scripts \
+RUN chown -R ${USERNAME}:${USERNAME} /home/${USERNAME}/scripts \
     && chmod -R +x /home/${USERNAME}/scripts
 
 
@@ -87,7 +86,6 @@ ARG ROBOCON_WS=/home/${USERNAME}/catkin_ws
 #------------------------------------------------
 # 必要なファイルを展開
 COPY ./templates/ /home/${USERNAME}/
-RUN sudo chown -R ${USERNAME}:${USERNAME} /home/${USERNAME}/
 
 # 永続化したい設定を.bashrc/.bash_profileに追加
 RUN cat /home/${USERNAME}/export_env \
@@ -95,6 +93,8 @@ RUN cat /home/${USERNAME}/export_env \
     | tee -a /home/${USERNAME}/.bashrc \
           >> /home/${USERNAME}/.bash_profile \
     && rm /home/${USERNAME}/export_env
+
+RUN chown -R ${USERNAME}:${USERNAME} /home/${USERNAME}/
 
 # 環境変数の設定
 ENV TZ Asia/Tokyo
@@ -104,8 +104,8 @@ WORKDIR ${ROBOCON_WS}
 
 # 起動時の実行コマンドの指定
 COPY ./entrypoint.sh /entrypoint.sh
-RUN sudo chown ${USERNAME}:${USERNAME} /entrypoint.sh \
+RUN chown ${USERNAME}:${USERNAME} /entrypoint.sh \
     && chmod +x /entrypoint.sh \
-    && sudo sed -i'' -e "s/^\(DEVELOPER_NAME\)=.*$/\1=${USERNAME}/g" /entrypoint.sh
+    && sed -i'' -e "s/^\(DEVELOPER_NAME\)=.*$/\1=${USERNAME}/g" /entrypoint.sh
 ENTRYPOINT [ "/entrypoint.sh" ]
 CMD [ "bash" "-l" ]

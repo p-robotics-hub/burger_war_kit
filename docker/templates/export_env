@@ -2,9 +2,7 @@ source /opt/ros/${ROS_DISTRO}/setup.bash
 export PATH=$PATH:${HOME}/scripts
 export TURTLEBOT3_MODEL=burger
 export QT_X11_NO_MITSHM=1
+export GAZEBO_MODEL_PATH={{ROBOCON_WS}}/src/burger_war_kit/burger_war/models/
 if [ -f "{{ROBOCON_WS}}/devel/setup.bash" ]; then
     source "{{ROBOCON_WS}}/devel/setup.bash"
-    export GAZEBO_MODEL_PATH={{ROBOCON_WS}}/src/burger_war_kit/burger_war/models/
-else
-    echo "'bash commands/ws-init.sh'を実行して、ワークスペースを作成して下さい"
 fi
