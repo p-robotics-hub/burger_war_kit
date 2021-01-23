@@ -14,7 +14,7 @@ fi
 
 # judge
 # run judge server and visualize window
-gnome-terminal -- python judge/judgeServer.py
+gnome-terminal -- python judge/judgeServer.py --mt 180 --et 60
 sleep 1
 #gnome-terminal -e "python judge/visualizeWindow.py"
 gnome-terminal -- python judge/JudgeWindow.py
