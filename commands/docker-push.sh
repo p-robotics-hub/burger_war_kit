@@ -4,9 +4,10 @@
 #-予めアクセストークンファイル($HOME/.github-token)を用意しておく必要がある
 #-
 #+[USAGE]
-#+  $0 [-v イメージのバージョン] [-h]
+#+  $0 [-l] [-v イメージのバージョン] [-h]
 #+
 #-[OPTIONS]
+#-  -l            レジストリにpushせずにローカル環境でのタグ付けのみを行う
 #-  -v version    'docker tag -t'で指定するイメージのバージョンを指定 (default: latest)
 #-  -h            このヘルプを表示
 #-
@@ -40,9 +41,13 @@ source "${SCRIPT_DIR}/config.sh"
 # オプション・引数解析
 #------------------------------------------------
 IMAGE_VERSION=latest
-while getopts v:h OPT
+LOCAL_ONLY=
+while getopts lv:h OPT
 do
   case $OPT in
+    l  ) # レジストリにpushせずにローカル環境でのタグ付けのみを行う
+      LOCAL_ONLY=1
+      ;;
     v  ) # Dockerイメージのバージョン指定
       IMAGE_VERSION="${OPTARG}"
       ;;
@@ -61,10 +66,14 @@ shift $((OPTIND - 1))
 # add tag
 docker tag ${KIT_DOCKER_IMAGE_NAME} ${REGISTRY_URL}/${KIT_DOCKER_IMAGE_NAME}:${IMAGE_VERSION}
 
-# push image
-docker push ${REGISTRY_URL}/${KIT_DOCKER_IMAGE_NAME}:${IMAGE_VERSION}
+if [ "$LOCAL_ONLY" == "" ]; then
+  # push image
+  docker push ${REGISTRY_URL}/${KIT_DOCKER_IMAGE_NAME}:${IMAGE_VERSION}
+fi
 
-echo "#--------------------------------------------------------------------"
-echo "# 以下のリポジトリにイメージをPUSHしました"
-echo "# URL: ${REGISTRY_URL}/${KIT_DOCKER_IMAGE_NAME}:${IMAGE_VERSION}"
-echo "#--------------------------------------------------------------------"
+cat <<-EOM
+#--------------------------------------------------------------------
+# 以下のリポジトリにイメージをPUSHしました
+# URL: ${REGISTRY_URL}/${KIT_DOCKER_IMAGE_NAME}:${IMAGE_VERSION}
+#--------------------------------------------------------------------
+EOM

@@ -101,8 +101,10 @@ docker run \
   tail -f /dev/null
 set +x
 
-echo "#--------------------------------------------------------------------"
-echo "# 開発用のベースコンテナを起動しました"
-echo "# USE IMAGE NAME: ${KIT_DOCKER_IMAGE_NAME}:${IMAGE_VERSION}"
-echo "# CONTAINER NAME: ${KIT_DOCKER_CONTAINER_NAME}"
-echo "#--------------------------------------------------------------------"
+cat <<-EOM
+#--------------------------------------------------------------------
+# 開発用のベースコンテナを起動しました
+# USE IMAGE NAME: ${KIT_DOCKER_IMAGE_NAME}:${IMAGE_VERSION}
+# CONTAINER NAME: ${KIT_DOCKER_CONTAINER_NAME}
+#--------------------------------------------------------------------
+EOM
