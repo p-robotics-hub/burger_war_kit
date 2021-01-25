@@ -29,6 +29,7 @@ RUN apt-get update -q && apt-get install -y --no-install-recommends \
         at-spi2-core \
         python-tk \
         python-pil.imagetk \
+        python-catkin-tools \
     && rm -rf /var/lib/apt/lists/*
 
 RUN apt-get update -q && apt-get install -y --no-install-recommends \
@@ -68,13 +69,6 @@ RUN test -f /etc/ros/rosdep/sources.list.d/20-default.list && \
     rm /etc/ros/rosdep/sources.list.d/20-default.list
 RUN rosdep init && \
     gosu ${USERNAME} rosdep update
-
-
-# 補助スクリプトのコピー
-#------------------------------------------------
-COPY ./scripts /home/${USERNAME}/scripts
-RUN chown -R ${USERNAME}:${USERNAME} /home/${USERNAME}/scripts \
-    && chmod -R +x /home/${USERNAME}/scripts
 
 
 # ワークスペース作成
