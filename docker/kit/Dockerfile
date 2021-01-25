@@ -25,6 +25,7 @@ RUN apt-get update -q && apt-get upgrade -yq && apt-get install -y --no-install-
 #------------------------------------------------
 RUN apt-get update -q && apt-get install -y --no-install-recommends \
         gnome-terminal \
+        libcanberra-gtk-module \
         dbus-x11 \
         at-spi2-core \
         python-tk \
