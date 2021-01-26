@@ -98,7 +98,7 @@ sudo apt install \
  ros-melodic-compressed-image-transport ros-melodic-rqt-image-view \
  ros-melodic-gmapping ros-melodic-navigation ros-melodic-interactive-markers
 # aruco (ARマーカー読み取りライブラリ）
-sudo aptt install ros-melodic-aruco-ros
+sudo apt install ros-melodic-aruco-ros
 ```
 
 
