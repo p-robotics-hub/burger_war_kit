@@ -94,6 +94,9 @@ RUN chown -R ${USERNAME}:${USERNAME} /home/${USERNAME}/
 # 環境変数の設定
 ENV TZ Asia/Tokyo
 
+# sudo時に引き継ぐ変数の設定
+RUN echo 'Defaults        env_keep += "http_proxy https_proxy HTTP_PROXY HTTPS_PROXY"' >> /etc/sudoers
+
 # 初期ディレクトリの指定
 WORKDIR ${ROBOCON_WS}
 
