@@ -1,6 +1,6 @@
 # Judge
 
-![onigiri_judge](picture/view.png)
+![judgeWindow](picture/judgeWindow.png)
 ## Quick Start
 とりあえず動きを確認する方法(すべて別のシェルで実行）
 ```
@@ -194,6 +194,8 @@ json sample
 ```
 
 # オブジェクトの配置設定
+**下記の設定はJudgeWindow.shでは未実装**
+
 setting.jsonから設定可能
 + nameとmarker_set.csv内で設定する名前をそろえること
 + nameと同じ名前の画像ファイルを/picture内のpng形式で用意すること

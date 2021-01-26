@@ -7,21 +7,29 @@
 - Ros melodic
 
 ## インストール
-burger_warには**実機**と**シミュレータ**があります。
+下記ではシミュレーター環境の構築を説明します。
+ロボット実機の説明は最後に補足として掲載しています。
+
+下記では、PCにインストールされたUbuntu 18.04の上で環境構築を行います。
+他のバージョンのUbuntuやLinuxでは下記の手順と異なります。
+
+Ubuntu 18.04がインストールされたPCを準備してください。
 
 ### 1. ros (melodic) のインストール
-rosのインストールが終わっている人は`2.このリポジトリをクローン` まで飛ばしてください。
+rosのインストールが終わっている人は`2.リポジトリをクローン` まで飛ばしてください。
 
 参考  ROS公式サイト<http://wiki.ros.org/melodic/Installation/Ubuntu>
 上記サイトと同じ手順です。
-ros インストール
+
+#### ros インストール
 ```
 sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'
 sudo apt-key adv --keyserver 'hkp://keyserver.ubuntu.com:80' --recv-key C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654
 sudo apt update
 sudo apt install ros-melodic-desktop-full
 ```
-環境設定
+
+#### 環境設定
 ```
 echo "source /opt/ros/melodic/setup.bash" >> ~/.bashrc
 source ~/.bashrc
@@ -32,8 +40,8 @@ sudo rosdep init
 rosdep update
 
 ```
-ワークスペース作成
 
+#### ワークスペース作成
 参考<https://catkin-tools.readthedocs.io/en/latest/quick_start.html>
 ```
 mkdir -p ~/catkin_ws/src
@@ -43,6 +51,7 @@ catkin build
 echo "source ~/catkin_ws/devel/setup.bash" >> ~/.bashrc
 source ~/.bashrc
 ```
+(補足)今大会よりcatkin_toolsの使用をデフォルトに変更しました
 
 ### 2. リポジトリをクローン
 gitをインストールします。
@@ -67,7 +76,7 @@ Turtlebot3のモデル名の指定を環境変数に追加。
 echo "export TURTLEBOT3_MODEL=burger" >> ~/.bashrc
 source ~/.bashrc
 ```
-
+(補足)GAZEBO_MODEL_PATHの指定はpackage.xml内で行うようにしたので不要になりました。
 
 ### 3. 依存ライブラリのインストール
 - pip : pythonのパッケージ管理ツール
@@ -93,46 +102,51 @@ sudo aptt install ros-melodic-aruco-ros
 ```
 
 
-### 5. make
+### 5. ビルドする
 ```
 cd ~/catkin_ws
-catkin_make
+catkin build
 ```
 
 インストールは以上です。
 
 ## サンプルの実行
 ### シミュレータ
-シミュレータ､ロボット(turtle_bot),審判サーバー､観戦画面のすべてを一発で起動する。大会で使用するスクリプト。
+シミュレータ､ロボット(turtle_bot)、審判サーバー､審判画面のすべてを一発で起動するスクリプトを実行します。
 最初にburger_warのフォルダまで移動します。
 ```
 cd ~/catkin_ws/src/burger_war_kit
 ```
-初回のみ、以下のコマンドでGazeboを起動し、モデルデータ等を読み込んでおくとよいです。
 
+初回のみ、以下のコマンドでGazeboを起動し、モデルデータ等を読み込んでおくとよいです。
 (初回はGazeboの起動がおそいためです。インターネット接続が必要です。)
 ```
 gazebo
 ```
-gazeboの初回立ち上げには数分かかることもあります。gazeboが空のフィールドで立ち上がったら一度gazeboを終了(ターミナルでCtrl+c)し、
+
+gazeboの初回立ち上げには数分かかることもあります。gazeboが空のフィールドで立ち上がったら一度gazeboを終了(ターミナルでCtrl+c)します。
+
+
 次にシミュレーションを起動します。
 ```
 bash scripts/sim_with_judge.sh
 ```
 
-![screenshot](https://user-images.githubusercontent.com/17049327/61606479-7ed49680-ac85-11e9-8c77-5cad3a5db4ed.png)
+![screenshot](doc/image/gazebo.jpg)
 
 ↑このようなフィールドが現れロボットが2台出現します。
+赤側が自機、青側が敵機です。
 審判画面も表示されます。
 
 フィールドとロボットが立ち上がったら
 別のターミナルで下記ロボット動作スクリプトを実行すると、プログラムが動き始めます。
-
+デフォルトのサンプルプログラムは、自機はランダムで動作します。
 ```
+cd ~/catkin_ws/src/burger_war_kit
 bash scripts/start.sh
 ```
 
-敵プログラムはレベル1-3まで３種類用意しています.（デフォルトではレベル１）
+敵プログラムはレベル1-3まで３種類用意しています。（デフォルトではレベル１）
 下記のように `-l` 引数によって変更できます。
 
 ```
@@ -144,7 +158,7 @@ bash scripts/start.sh -l 3
 ```
 
 ### シミュレーターの終了
-Gazeboおよび審判画面を閉じて、ターミナルでCtrl+cを押すと終了します。ターミナルは複数あります。
+Gazeboおよび審判画面を閉じて、ターミナルでCtrl+cを押すと終了します。ターミナルは複数立ち上がっていますが、全てCtrl+cで終了させます。
 終了には時間がかかります。
 
 ### シミュレーターのリセット
@@ -157,7 +171,7 @@ Gazeboおよび審判画面を閉じて、ターミナルでCtrl+cを押すと�
 bash judge/test_scripts/init_single_play.sh judge/marker_set/sim.csv localhost:5000 you enemy
 ```
 
-審判サーバーはブラウザーからもコントロールできます。下記にアクセスしてください。
+上記コマンドの他、審判サーバーはブラウザーからもコントロールできます。下記にアクセスしてください。
 http://localhost:5000/
 
 
@@ -166,6 +180,8 @@ http://localhost:5000/
 ```
 roslaunch burger_war setup_sim.launch
 ```
+(審判サーバーと通信できないエラーが発生しますが無視して構いません)
+
 フィールドとロボットが立ち上がったら
 別のターミナルで下記ロボット動作スクリプトを実行
 ```
@@ -179,12 +195,17 @@ roslaunch burger_war sim_robot_run.launch enemy_level:=1
 ## ファイル構成
 
 参加者は、burger_war_dev以下のディレクトリで開発を行ってください。
-最低限、変更の必要性
+最低限変更の必要があるファイルは下記です。
 
-リポジトリ全体は下記のようなディレクトリ構成になっています。  
+- burger_war_dev/burger_war_dev/launch/your_burger.launch
+  - 参加者のロボット動作プログラムを起動するためのLaunchファイルです
+- burger_war_dev/burger_war_dev/scripts/*.py
+  - ロボット動作プログラムはここに置きます。randomRun.pyがサンプルです。
+
+開発環境のディレクトリ構成は下記のようになっています。  
 
 ```
-burger_war_dev 参加者が開発するレポジトリ
+burger_war_dev https://github.com/p-robotics-hub/burger_war_kit を参加者がForkしたレポジトリ
 ├── burger_war_dev この名称のPackageは必ず必要です
 │   ├── launch  launchファイルの置き場
 │   │   └── your_burger.launch  【このファイルで起動するノードを制御します】参加者用launchファイル
@@ -202,7 +223,7 @@ burger_war_dev 参加者が開発するレポジトリ
     └── rviz    RVizの設定ファイル
 
 
-burger_war_kit ロボットモデルやワールドモデル（変更不可）
+burger_war_kit 【このレポジトリ】ロボットモデルやワールドモデル（変更不可）
 ├── burger_war
 │   ├── launch  launchファイルの置き場
 │   │   ├── setup.launch  実機でロボットを起動、初期化するlaunchファイル
@@ -232,13 +253,13 @@ burger_war_kit ロボットモデルやワールドモデル（変更不可）
     ├─── sim_with_judge.sh   シミュレーターとロボットと審判サーバーの立ち上げ初期化をすべて行う
     └──  start.sh             赤サイド、青サイドのロボットを動作させるノードを立ち上げるスクリプト
 ```
-↑ディレクトリと特に重要なファイルのみ説明しています。
 
-## Turtlebot3のスペック
-- http://emanual.robotis.com/docs/en/platform/turtlebot3/specifications/
+## 補足情報
+### Turtlebot3のスペック
+- https://emanual.robotis.com/docs/en/platform/turtlebot3/features/
 
 
-## 実機の動かし方
+### 実機の動かし方
 センサなどが立ち上がりロボットを動かす準備 `burger_war setup.launch`
 引数
 - `side`: (default: 'b') ロボットが赤サイドか青サイドか表す引数。審判サーバーに提出する際にどちらサイドか表すために使用する。赤サイドなら `r` 青サイドなら `b`
@@ -267,7 +288,7 @@ roslaunch burger_war your_burger.launch side:=r
 roslaunch burger_war your_burger.launch side:=b
 ```
 
-## 審判サーバー
+### 審判サーバー
 審判サーバーは`judge/`以下にあります
 そちらのREADMEを参照ください
 
