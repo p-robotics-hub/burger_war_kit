@@ -7,13 +7,16 @@
 - Ros melodic
 
 ## Dockerの使用について
+Dockerとは仮想化技術の１つです。
+Dockerを使うことでホストの環境に影響を与えることなく開発環境を構築できます。
+また、Ubuntuのバージョンが異なっても構築することが可能です。
 
 Dockerを使用して環境構築をしたい方は、下記の説明をご覧ください。
 
 https://github.com/p-robotics-hub/burger_war_dev/blob/main/STARTUP_GUIDE.md
 
 
-以下では、Ubuntu上に直接環境構築する例を説明しています。
+このドキュメントの以下では、Ubuntu上に直接環境構築する例を説明しています。
 
 ## インストール
 下記ではシミュレーター環境の構築を説明します。
