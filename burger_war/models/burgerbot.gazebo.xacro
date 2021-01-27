@@ -4,38 +4,44 @@
   <xacro:arg name="imu_visual"   default="false"/>
 
   <gazebo reference="base_link">
+    <mu1>0.01</mu1>
+    <mu2>0.01</mu2>
+    <kp>1000000.0</kp>
+    <kd>100.0</kd>
+    <minDepth>0.001</minDepth>
+    <maxVel>1.0</maxVel>
     <material>Gazebo/DarkGrey</material>
   </gazebo>
 
   <gazebo reference="wheel_left_link">
     <mu1>1</mu1>
     <mu2>1</mu2>
-    <kp>10000000.0</kp>
-    <kd>100000.0</kd>
+    <kp>500000.0</kp>
+    <kd>10.0</kd>
     <minDepth>0.001</minDepth>
-    <maxVel>0.0</maxVel>
-    <fdir1>0 0 0</fdir1>
+    <maxVel>0.1</maxVel>
+    <fdir1>1 0 0</fdir1>
     <material>Gazebo/FlatBlack</material>
   </gazebo>
 
   <gazebo reference="wheel_right_link">
     <mu1>1</mu1>
     <mu2>1</mu2>
-    <kp>10000000.0</kp>
-    <kd>100000.0</kd>
+    <kp>500000.0</kp>
+    <kd>10.0</kd>
     <minDepth>0.001</minDepth>
-    <maxVel>0.0</maxVel>
-    <fdir1>0 0 0</fdir1>
+    <maxVel>0.1</maxVel>
+    <fdir1>1 0 0</fdir1>
     <material>Gazebo/FlatBlack</material>
   </gazebo>
 
   <gazebo reference="caster_back_link">
-    <mu1>0.01</mu1>
-    <mu2>0.01</mu2>
-    <kp>10000000.0</kp>
-    <kd>100000.0</kd>
-    <minDepth>0.001</minDepth>
-    <maxVel>0.0</maxVel>
+    <mu1>0.0001</mu1>
+    <mu2>0.0001</mu2>
+    <kp>1e+12</kp><!--1000000.0-->
+    <kd>1.0</kd><!--100-->
+    <minDepth>0.000001</minDepth><!--0.001-->
+    <maxVel>0.0001</maxVel><!--1.0-->
     <material>Gazebo/FlatBlack</material>
   </gazebo>
 
@@ -52,11 +58,13 @@
       <commandTopic>limited_cmd_vel</commandTopic>
       <odometryTopic>odom</odometryTopic>
       <odometryFrame>odom</odometryFrame>
-      <odometrySource>world</odometrySource>
+<!--      <odometrySource>world</odometrySource>-->
+      <odometrySource>encoder</odometrySource>
       <publishOdomTF>true</publishOdomTF>
       <robotBaseFrame>base_footprint</robotBaseFrame>
       <publishWheelTF>false</publishWheelTF>
-      <publishTf>true</publishTf>
+<!--      <publishTf>true</publishTf>-->
+      <publishTf>false</publishTf>
       <publishWheelJointState>true</publishWheelJointState>
       <legacyMode>false</legacyMode>
       <updateRate>30</updateRate>
@@ -70,6 +78,7 @@
     </plugin>
   </gazebo>
 
+<!--
   <gazebo>
     <plugin name="imu_plugin" filename="libgazebo_ros_imu.so">
       <alwaysOn>true</alwaysOn>
@@ -96,6 +105,19 @@
           </accel>
         </noise>
       </imu>
+    </plugin>
+  </gazebo>
+-->
+
+  <gazebo>
+    <plugin name="imu_plugin" filename="libhector_gazebo_ros_imu.so">
+      <alwaysOn>true</alwaysOn>
+      <bodyName>imu_link</bodyName>
+      <frameName>imu_link</frameName>
+      <topicName>imu</topicName>
+      <serviceName>imu_service</serviceName>
+      <gaussianNoise>0.0</gaussianNoise>
+      <updateRate>200</updateRate>
     </plugin>
   </gazebo>
 
