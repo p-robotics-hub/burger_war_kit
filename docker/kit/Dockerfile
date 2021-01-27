@@ -98,6 +98,7 @@ COPY ./templates/ /home/${USERNAME}/
 # 永続化したい設定を.bashrc/.bash_profileに追加
 RUN cat /home/${USERNAME}/export_env \
     | sed "s@{{ROBOCON_WS}}@${ROBOCON_WS}@g" \
+    | sed "s@{{ROS_DISTRO}}@${ROS_DISTRO}@g" \
     | tee -a /home/${USERNAME}/.bashrc \
           >> /home/${USERNAME}/.bash_profile \
     && rm /home/${USERNAME}/export_env
