@@ -119,10 +119,17 @@ sudo apt install python-pil python-pil.imagetk
 
 
 ### 5. ビルドする
+下記でビルドをします。
 ```
 cd ~/catkin_ws
 catkin build
 ```
+
+初めてビルドした時は、環境変数を再読み込みが必要です。
+```
+source ~/.bashrc
+```
+
 
 インストールは以上です。
 
