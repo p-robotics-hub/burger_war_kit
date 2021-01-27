@@ -96,6 +96,7 @@ source ~/.bashrc
 - flask : HTTP server 審判サーバーで使用
 - turtlebot3
 - aruco
+- PIL : 審判画面で使用
 
 ```
 # pip のインストール 
@@ -108,9 +109,12 @@ sudo apt install \
  ros-melodic-teleop-twist-keyboard ros-melodic-amcl ros-melodic-map-server \
  ros-melodic-move-base ros-melodic-urdf ros-melodic-xacro \
  ros-melodic-compressed-image-transport ros-melodic-rqt-image-view \
- ros-melodic-gmapping ros-melodic-navigation ros-melodic-interactive-markers
+ ros-melodic-gmapping ros-melodic-navigation ros-melodic-interactive-markers \
+ ros-melodic-hector-gazebo-plugins 
 # aruco (ARマーカー読み取りライブラリ）
 sudo apt install ros-melodic-aruco-ros
+# PIL
+sudo apt install python-pil python-pil.imagetk
 ```
 
 
