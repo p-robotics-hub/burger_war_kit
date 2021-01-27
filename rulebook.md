@@ -1,4 +1,4 @@
-# Robotics HUB Challenge 2nd ルールブック
+# Robotics HUB Challenge ルールブック (第4回大会バージョン)
 
 ## はじめに
 
@@ -44,7 +44,7 @@
 
 
 ### フィールド
-フィールド及びターゲットの寸法などの詳細は本リポジトリの[burger_war_field.pdf](doc/burger_war_field.pdf)を参照．
+フィールド及びターゲットの寸法などの詳細は本リポジトリの[burger_war_field](doc/burger_war_field.md)を参照．
 
 - **2.4m**四方の壁で囲われたフィールド内で競技を行う．
 - 競技フィールド内には，障害物を設置する．
