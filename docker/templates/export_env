@@ -1,4 +1,4 @@
-source /opt/ros/${ROS_DISTRO}/setup.bash
+source /opt/ros/{{ROS_DISTRO}}/setup.bash
 export PATH=$PATH:${HOME}/scripts
 export TURTLEBOT3_MODEL=burger
 export QT_X11_NO_MITSHM=1
