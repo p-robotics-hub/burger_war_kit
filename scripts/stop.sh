@@ -58,6 +58,8 @@ function stop_process(){
     try_kill_process "start.sh"
     try_kill_process "sim_with_judge.sh"    
     try_kill_process "setup_sim.launch"
+    try_kill_process "gazebo"
+    try_kill_process "gzserver"
 }
 
 stop_process
