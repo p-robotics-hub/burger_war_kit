@@ -17,7 +17,7 @@ function do_game(){
     ITERATION=$1
     ENEMY_LEVEL=$2
     GAME_TIME=$3
-    MY_SIDE=$4
+    MY_SIDE=$4 # myside parameter currently doesn't work..
     if [ -z $MY_SIDE ]; then
 	MY_SIDE="r"
     fi
@@ -26,9 +26,9 @@ function do_game(){
     pushd ${BURGER_WAR_KIT_REPOSITORY}
 
     # start
-    gnome-terminal -- bash scripts/sim_with_judge.sh -s ${MY_SIDE}
+    gnome-terminal -- bash scripts/sim_with_judge.sh # -s ${MY_SIDE}
     sleep 30
-    gnome-terminal -- bash scripts/start.sh -l ${ENEMY_LEVEL} -s ${MY_SIDE}
+    gnome-terminal -- bash scripts/start.sh -l ${ENEMY_LEVEL} # -s ${MY_SIDE}
 
     # wait game finish
     sleep $GAME_TIME
@@ -56,6 +56,7 @@ function do_game(){
     # stop
     # wait stop until all process is end
     bash scripts/stop.sh -s true
+    sleep 10
 
     popd
 }
