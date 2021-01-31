@@ -19,6 +19,10 @@ class Sample():
     def stateCallback(self, state):
 
         dic = json.loads(state.data)
+
+        if self.FLAG == 1:
+            return 0
+
         self.my_score = int(dic["scores"]["r"])
         self.enemy_score = int(dic["scores"]["b"])
 
