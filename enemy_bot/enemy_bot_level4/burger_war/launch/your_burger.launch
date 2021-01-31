@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="side" default="r"/> <!-- "b" = blue side, "r" = red side  -->
+  <arg name="robot_namespace" default=""/>
+    <!-- You can change control program  -->
+
+    <!-- sample program node -->
+
+    <include file="$(find burger_navigation_level4)/launch/burger_navigation.launch">
+      <arg name="robot_namespace" default="$(arg robot_namespace)"/>
+    </include>
+
+    <!-- <node pkg="burger_war" type="seigoRun1.py" name="seigoRun" output="screen">
+      <param name="robot_name" value="$(arg side)" />
+    </node> -->
+
+    <node pkg="burger_war_level4" type="seigoRun2.py" name="seigoRun" output="screen">
+      <param name="robot_namespace" value="$(arg robot_namespace)" />
+      <param name="robot_name" value="$(arg side)" />
+      <!-- 何秒前までの敵検出結果を有効とするか -->
+      <param name="detect_enemy_time_tolerance" value="0.5" />
+      <!-- 何メートル以内に敵が来たら攻撃行動に遷移するか -->
+      <param name="snipe_distance_th" value="0.8" />
+      <!-- この範囲内に障害物があるときは回復行動に移る -->
+      <param name="distance_to_wall_th" value="0.15" />
+      <!-- 攻撃するとき敵まで何メートル近づくか -->
+      <param name="approch_distance_th" value="0.2" />
+      <!-- 敵と方位角の角度差分がこのしきい値を下回ったとき、接近する -->
+      <param name="attack_angle_th" value="0.785" />
+    </node>
+
+    <include file="$(find burger_war_level4)/launch/obstacle_detector.launch">
+      <arg name="robot_namespace" default="$(arg robot_namespace)"/>
+    </include>
+    <node pkg="burger_war_level4" type="enemy_detector.py" name="enemy_detector_node" output="screen">
+      <param name="robot_namespace" value="$(arg robot_namespace)"/>
+    </node>
+    <!-- END sample program node -->
+
+    <!-- End of your space  -->
+</launch>

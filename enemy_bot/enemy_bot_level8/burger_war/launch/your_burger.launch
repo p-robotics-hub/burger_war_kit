@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<launch>
+  <!-- You can change control program  -->
+  <arg name="side" default="r"/> <!-- "b" = blue side, "r" = red side  -->
+  <arg name="robot_namespace" default="enemy_bot"/>
+
+    <!-- localization & navigation -->
+    <include file="$(find burger_navigation_level8)/launch/burger_navigation.launch">
+      <arg name="robot_namespace" default="$(arg robot_namespace)"/>
+    </include>
+      
+    <node pkg="burger_war_level8" type="send_priority_goal.py" name="send_priority_goal" output="screen">
+      <param name="robot_namespace" value="$(arg robot_namespace)" />
+      <param name="side" value="$(arg side)" />
+      <param name="near_backwall_dist" value="0.28"/> <!--ロボットの後ろの壁が近いかどうかの判定値-->
+      <param name="near_frontwall_dist" value="0.20"/> <!--ロボットの前の壁が近いかどうかの判定値-->
+
+      <param name="enemy_distance_th" value="0.80"/> <!--敵との距離が近いか-->
+      <param name="enemy_distance_th_small" value="0.40"/> <!--敵との距離が近いか-->
+      <param name="enemy_close" value="0.30"/> <!--敵との距離が近すぎないか-->
+      <param name="escape_distance" value="0.7"/> <!--敵との距離が近すぎないか-->
+      <param name="update_ememy_time" value="1.0"/> <!--敵の目標位置のupdate時間-->
+      <param name="time_th" value="150"/> <!--時間が残っているかどうか-->
+      <param name="close_th" value="0.30"/> <!--かなり近い所にマーカーがあるかどうか-->
+      <param name="stack" value="2.5"/> <!--スタックタイム-->
+      <param name="enemy_find_time" value="13.0"/> <!--初期状態を持続する最短時間-->
+      <param name="enemy_target_offset" value="0.1"/> <!--敵を目標とするときに中心からどれだけオフセットを取るか-->
+      <param name="current_dir" value= "$(find burger_war_level8)/scripts"/>
+    </node>
+
+    <node pkg="burger_war_level8" type="globalPlanner2.py" name="globalPlanner" output="screen">
+      <param name="robot_namespace" value="$(arg robot_namespace)" />
+    </node>
+    
+    <!-- Estimate enemy -->
+    <include file="$(find burger_war_level8)/launch/get_enemy.launch">
+      <arg name="robot_namespace" default="$(arg robot_namespace)"/>
+      <arg name = "side" value= "$(arg side)"/>
+    </include>
+
+
+    <!-- End of your space  -->
+</launch>
+

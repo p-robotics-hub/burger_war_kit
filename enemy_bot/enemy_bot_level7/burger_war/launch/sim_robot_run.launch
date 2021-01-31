@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="enemy_level" default="1"/>
+<!-- Your robot control node run  red side-->
+<group ns="enemy_bot">
+  <include file="$(find burger_war)/launch/your_burger.launch">
+    <arg name="robot_namespace" default="enemy_bot"/>
+    <arg name="side" value="b" />
+  </include>
+</group>
+
+<group if="$(eval enemy_level==1)"> 
+  <include file="$(find burger_war)/launch/sim_level_1_cheese.launch">
+    <arg name="name_space" value="" />
+  </include>  
+</group>
+
+</launch>

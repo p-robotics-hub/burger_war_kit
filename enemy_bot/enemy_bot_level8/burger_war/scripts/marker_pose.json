@@ -1,0 +1,50 @@
+{
+    "Tomato_N":{
+      "player": "n", 
+      "pose": [0.905,0.53,3.1415]
+    }, 
+    "Tomato_S":{ 
+      "player": "n", 
+      "pose": [0.100,0.53,0]
+    }, 
+     "Omelette_N":{
+      "player": "n", 
+      "pose": [0.905,-0.53,3.1415]
+    }, 
+    "Omelette_S":{
+      "player": "n", 
+      "pose": [0.100,-0.53,0]
+    }, 
+    "Pudding_N":{
+      "player": "n", 
+      "pose": [-0.100,0.53,3.1415]
+    }, 
+    "Pudding_S":{
+      "player": "n", 
+      "pose": [-0.905,0.53,0]
+    }, 
+    "OctopusWiener_N":{
+      "player": "n", 
+      "pose": [-0.100,-0.53,3.1415]
+    }, 
+    "OctopusWiener_S":{
+      "player": "n", 
+      "pose": [-0.905,-0.53,0]
+    }, 
+    "FriedShrimp_N":{
+      "player": "n", 
+      "pose": [0.475,0,3.1415]
+    }, 
+    "FriedShrimp_E":{
+      "player": "n", 
+      "pose": [0,-0.40,1.5707]
+    }, 
+    "FriedShrimp_W":{
+      "player": "n", 
+      "pose": [0,0.40,-1.5707]
+    }, 
+    "FriedShrimp_S":{
+      "player": "n", 
+      "pose": [-0.475,0,0]
+    }
+}

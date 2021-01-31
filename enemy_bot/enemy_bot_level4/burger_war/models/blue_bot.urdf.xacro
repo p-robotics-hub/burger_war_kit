@@ -1,0 +1,98 @@
+<?xml version="1.0" ?>
+<robot name="turtlebot3_burger" xmlns:xacro="http://ros.org/wiki/xacro">
+  <xacro:include filename="$(find turtlebot3_description)/urdf/common_properties.xacro"/>
+  <!-- xacro:include filename="$(find turtlebot3_description)/urdf/turtlebot3_burger.gazebo.xacro"/-->
+  <xacro:include filename="$(find burger_war)/models/burgerbot.gazebo.xacro"/>
+  <xacro:include filename="$(find burger_war)/models/burger_bot_common.xacro"/>
+
+  <joint name="tag1_joint" type="fixed">
+    <origin rpy="-1.571 3.1415 0" xyz="-0.03 0.07 0.09"/>
+    <parent link="base_link"/>
+    <child link="tag1"/>
+  </joint>
+  <link name="tag1">
+    <visual>
+      <geometry>
+          <!-- 120mm x 0.666 = 80mm -->
+          <mesh filename="package://burger_war/models/tags/0050g.dae" scale="0.666 0.666 1.0" />
+      </geometry>
+    </visual>
+  </link>
+  <joint name="tag1-1_joint" type="fixed">
+    <origin rpy="-1.571 3.1415 0" xyz="-0.03 0.069 0.09"/>
+    <parent link="base_link"/>
+    <child link="tag1-1"/>
+  </joint>
+  <link name="tag1-1">
+    <visual>
+      <geometry>
+          <mesh filename="package://burger_war/models/tags/test.dae" scale="0.666 0.666 1.0"/>
+      </geometry>
+    </visual>
+  </link>
+  <joint name="tag2_joint" type="fixed">
+    <origin rpy="1.571 0 0" xyz="-0.03 -0.07 0.09"/>
+    <parent link="base_link"/>
+    <child link="tag2"/>
+  </joint>
+  <link name="tag2">
+    <visual>
+      <geometry>
+          <mesh filename="package://burger_war/models/tags/0051g.dae" scale="0.666 0.666 1.0" />
+      </geometry>
+    </visual>
+  </link>
+  <joint name="tag2-1_joint" type="fixed">
+    <origin rpy="1.571 0 0" xyz="-0.03 -0.069 0.09"/>
+    <parent link="base_link"/>
+    <child link="tag2-1"/>
+  </joint>
+  <link name="tag2-1">
+    <visual>
+      <geometry>
+          <mesh filename="package://burger_war/models/tags/test.dae" scale="0.666 0.666 1.0"/>
+      </geometry>
+    </visual>
+  </link>
+  <joint name="tag3_joint" type="fixed">
+    <origin rpy="1.571 0 -1.571" xyz="-0.101 0.0 0.09"/>
+    <parent link="base_link"/>
+    <child link="tag3"/>
+  </joint>
+  <link name="tag3">
+    <visual>
+      <geometry>
+          <mesh filename="package://burger_war/models/tags/0052g.dae" scale="0.666 0.666 1.0" />
+      </geometry>
+    </visual>
+  </link>
+  <joint name="tag3-1_joint" type="fixed">
+    <origin rpy="1.571 0 -1.571" xyz="-0.10 0.0 0.09"/>
+    <parent link="base_link"/>
+    <child link="tag3-1"/>
+  </joint>
+  <link name="tag3-1">
+    <visual>
+      <geometry>
+          <mesh filename="package://burger_war/models/tags/test.dae" scale="0.666 0.666 1.0"/>
+      </geometry>
+    </visual>
+  </link>
+
+  <joint name="blue_plate_joint" type="fixed">
+    <origin rpy="0 0 0" xyz="-0.0 -0.0 0.009"/>
+    <parent link="base_scan"/>
+    <child link="blue_plate"/>
+  </joint>
+  <link name="blue_plate">
+    <visual>
+      <geometry>
+        <cylinder length="0.0001" radius="0.028"/>
+      </geometry>
+    </visual>
+  </link>
+
+
+</robot>
+
+

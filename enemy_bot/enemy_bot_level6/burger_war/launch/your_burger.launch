@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="side" default="r"/> <!-- "b" = blue side, "r" = red side  -->
+  <arg name="robot_namespace" default=""/>
+    <!-- You can change control program  -->
+
+
+    <!-- sample program node -->
+    <include file="$(find burger_navigation_level6)/launch/burger_navigation.launch">
+      <arg name="robot_namespace" default="$(arg robot_namespace)"/>
+    </include>
+
+    <node pkg="burger_war_level6" type="sugarman_2.py" name="SugarMan" output="screen">
+      <param name="robot_namespace" value="$(arg robot_namespace)" />
+    </node>
+
+    <!-- END sample program node -->
+
+
+    <!-- End of your space  -->
+</launch>
+

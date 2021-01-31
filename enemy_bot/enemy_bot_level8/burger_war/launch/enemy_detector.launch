@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="robot_name" default=""/> <!-- robot_name for use NAMESPACE --> 
+  <arg name="side" default="r"/> <!-- "b" = blue side, "r" = red side  -->
+  <arg name="robot_namespace" default="enemy_bot"/>
+
+  <node pkg="burger_war_level8" type="enemy_detector_lidar.py" name="enemy_detector_node" output="screen">
+    <param name="robot_namespace" value="$(arg robot_namespace)" />
+    <param name="robot_name" value="$(arg robot_name)" />
+    <param name="th_corner" value="0.22"/>
+    <param name="th_center" value="0.34"/>
+  </node>
+
+  <include file="$(find burger_war_level8)/launch/obstacle_detector.launch">
+    <arg name="robot_namespace" default="$(arg robot_namespace)"/>
+    <arg name="robot_name" value="$(arg robot_name)" />
+  </include>
+
+</launch>
+

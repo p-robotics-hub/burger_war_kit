@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="side" default="r"/> <!-- "b" = blue side, "r" = red side  -->
+    <!-- make args to params -->
+    <param name="side"    value="$(arg side)"/>
+    <arg name="robot_namespace" default=""/>
+
+    <!-- You can change control program  -->
+
+    <include file="$(find burger_navigation_level5)/launch/burger_navigation.launch">
+      <arg name="robot_namespace" default="$(arg robot_namespace)"/>
+    </include>
+
+    <!-- main program node -->
+    <node pkg="burger_war_level5" type="testRun2.py" name="testRun" output="screen">
+      <param name="robot_namespace" value="$(arg robot_namespace)" />
+    </node>
+    <!--
+    <include file="$(find burger_war)/launch/obstacle_detector.launch"/>
+    <node pkg="burger_war" type="enemy_detector.py" name="enemy_detector_node" output="screen"/>
+-->
+    <!-- END main program node -->
+
+
+    <!-- End of your space  -->
+</launch>

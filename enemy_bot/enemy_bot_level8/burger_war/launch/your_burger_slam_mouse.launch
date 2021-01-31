@@ -1,0 +1,75 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="side" default="r"/> <!-- "b" = blue side, "r" = red side  -->
+
+    <!-- You can change control program  -->
+
+    <!-- Arguments -->
+  <arg name="map_file" default="$(find burger_navigation)/maps/map.yaml"/>
+  <arg name="open_rviz" default="true"/>
+  <arg name="move_forward_only" default="false"/>
+  <arg name="cmd_vel_topic" default="cmd_vel" />
+  <arg name="odom_topic" default="odom" />
+  <arg name="scan_topic"     default="scan"/>
+  <arg name="initial_pose_x" default="-1.3"/>
+  <arg name="initial_pose_y" default="0.0"/>
+  <arg name="initial_pose_a" default="0.0"/>
+  <arg name="slam_methods" default="gmapping" doc="slam type [gmapping, cartographer, hector, karto, frontier_exploration]"/>
+  <arg name="configuration_basename" default="turtlebot3_lds_2d.lua"/>
+
+  <!-- TurtleBot3 -->
+  <include file="$(find turtlebot3_bringup)/launch/turtlebot3_remote.launch">
+    <arg name="model" value="burger" />
+  </include>
+
+    <!-- Map server -->
+  <node pkg="map_server" name="map_server" type="map_server" args="$(arg map_file)">
+  </node>
+
+  <!-- AMCL -->
+  <node pkg="amcl" type="amcl" name="amcl">
+    <rosparam file="$(find burger_navigation)/param/amcl.yaml" command="load" />
+    <param name="initial_pose_x"            value="$(arg initial_pose_x)"/>
+    <param name="initial_pose_y"            value="$(arg initial_pose_y)"/>
+    <param name="initial_pose_a"            value="$(arg initial_pose_a)"/>
+    <remap from="scan"                      to="$(arg scan_topic)"/>
+  </node>
+
+
+  <!-- move_base -->
+  <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
+    <param name="base_local_planner" value="dwa_local_planner/DWAPlannerROS" />
+    <rosparam file="$(find burger_navigation)/param/costmap_common_params_burger.yaml" command="load" ns="global_costmap" />
+    <rosparam file="$(find burger_navigation)/param/costmap_common_params_burger.yaml" command="load" ns="local_costmap" />
+    <rosparam file="$(find burger_navigation)/param/local_costmap_params.yaml" command="load" />
+    <rosparam file="$(find burger_navigation)/param/global_costmap_params.yaml" command="load" />
+    <rosparam file="$(find burger_navigation)/param/move_base_params.yaml" command="load" />
+    <rosparam file="$(find burger_navigation)/param/dwa_local_planner_params_burger.yaml" command="load" />
+    <remap from="cmd_vel" to="$(arg cmd_vel_topic)"/>
+    <remap from="odom" to="$(arg odom_topic)"/>
+    <param name="DWAPlannerROS/min_vel_x" value="0.0" if="$(arg move_forward_only)" />
+
+    <param name="local_costmap/global_frame"             value="odom"/>
+    <param name="local_costmap/robot_base_frame"             value="base_link"/>
+    <param name="local_costmap/scan/sensor_frame"             value="base_scan"/>
+    <param name="global_costmap/robot_base_frame"            value="base_link"/>
+    <param name="global_costmap/global_frame"            value="map"/>
+    <param name="global_costmap/scan/sensor_frame"             value="base_scan"/>
+  </node>
+
+  <!-- rviz -->
+  <group if="$(arg open_rviz)"> 
+    <node pkg="rviz" type="rviz" name="rviz" required="true"
+          args="-d $(find turtlebot3_slam)/rviz/turtlebot3_$(arg slam_methods).rviz"/>
+  </group>
+
+    <!-- sample program node -->
+  <node pkg="mouse_teleop" type="mouse_teleop.py" name="mouse_teleop">
+    <remap from="mouse_vel" to="cmd_vel" />
+  </node>
+    <!-- END sample program node -->
+
+
+    <!-- End of your space  -->
+</launch>
+

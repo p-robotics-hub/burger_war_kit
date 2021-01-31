@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="side" default="r"/> <!-- "b" = blue side, "r" = red side  -->
+
+    <!-- You can change control program  -->
+    <node pkg="burger_war" type="globalPlanner2.py" name="globalPlanner" output="screen">
+    </node>
+    <!-- END sample program node -->
+
+
+    <!-- localization & navigation -->
+  <include file="$(find burger_navigation)/launch/burger_navigation.launch"/>
+
+
+    <!-- End of your space  -->
+</launch>
+

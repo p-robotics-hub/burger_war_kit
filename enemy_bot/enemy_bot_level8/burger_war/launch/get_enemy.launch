@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="side" default="r"/>
+  <arg name="rate" default="5"/> <!-- rate = control rate -->
+  <arg name="robot_name" default=""/>
+  <arg name="robot_namespace" default=""/>
+
+  <!-- Estimate enemy position by canera -->
+    <node pkg="burger_war_level8" type="EnemyState.py" name="relative_enemy_camera" output="screen">
+      <param name="robot_namespace" value="$(arg robot_namespace)" />
+      <param name="rate" value="10"/>
+      <param name="resize_rate" value="0.8"/> <!-- 0 〜 1 -->
+    </node>
+    <node pkg="burger_war_level8" type="enemy_detector_camera.py" name="enemy_detector_camera" output="log">
+      <param name="robot_namespace" value="$(arg robot_namespace)" />
+    </node>
+    
+  <!-- Estimate enemy position by LiDAR -->
+  <include file="$(find burger_war_level8)/launch/enemy_detector.launch">
+    <arg name="robot_namespace" default="$(arg robot_namespace)"/>
+    <arg name="robot_name" value="$(arg robot_name)" />
+  </include>
+
+  <!-- Publish enemy pose -->
+  <node pkg="burger_war_level8" type="pub_enemy.py" name="pub_enemy" output="log">
+    <param name="robot_namespace" value="$(arg robot_namespace)" />
+    <param name="rate" value="$(arg rate)"/>
+    <param name="side" value="$(arg side)"/>
+  </node>
+
+  <!-- Publish my pose topic -->  
+    <node pkg="burger_war_level8" type="pub_my_pose.py" name="pub_my_pose" output="log">
+      <param name="robot_namespace" value="$(arg robot_namespace)" />
+      <param name="rate" value="$(arg rate)"/>
+    </node>
+
+</launch>

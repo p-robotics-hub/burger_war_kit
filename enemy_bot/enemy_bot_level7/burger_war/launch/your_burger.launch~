@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="robot_name" default=""/> <!-- robot_name for use NAMESPACE -->
+  <arg name="side" default="b"/> <!-- "b" = blue side, "r" = red side  -->
+  <arg name="is_run_node" default="true"/>
+  <arg name="robot_namespace" default="enemy_bot"/>
+
+  <include file="$(find burger_navigation)/launch/your_burger_navigation_sample.launch">
+    <arg name="robot_namespace" default="$(arg robot_namespace)"/>
+    <arg name="side" value="$(arg side)" />
+  </include>
+
+  <node pkg="burger_war" type="myRun.py" name="randomRun" output="screen" if="$(arg is_run_node)">
+    <param name="robot_namespace" value="$(arg robot_namespace)" />
+    <!-- <param name="rside" value="$(arg side)" /> -->
+    <param name="rside" value="r" />  <!-- this bot works on blue side with "side="r"", why? -->
+  </node>
+
+  <include file="$(find burger_war)/launch/enemy_detector.launch">
+    <arg name="robot_namespace" default="$(arg robot_namespace)"/>
+    <arg name="side" value="$(arg side)" />
+    <arg name="robot_name" value="$(arg robot_name)" />
+  </include>
+
+</launch>
+

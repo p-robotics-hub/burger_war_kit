@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="robot_name" default=""/> <!-- robot_name for use NAMESPACE -->
+  <arg name="side" default="r"/> <!-- "b" = blue side, "r" = red side  -->
+  <arg name="robot_namespace" default="enemy_bot"/>
+
+  <node pkg="burger_war_level7" type="enemy_detector.py" name="enemy_detector_node" output="screen">
+    <param name="robot_namespace" value="$(arg robot_namespace)"/>
+    <param name="robot_name" value="$(arg robot_namespace)" />
+  </node>
+
+  <include file="$(find burger_war_level7)/launch/obstacle_detector.launch">
+    <arg name="robot_namespace" default="$(arg robot_namespace)"/>
+    <arg name="robot_name" value="$(arg robot_name)" />
+  </include>
+
+  <!-- <node pkg="burger_war" type="scan_trimer.py" name="scan_trimer_node" output="screen"/> -->
+
+</launch>
+

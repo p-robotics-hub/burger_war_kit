@@ -1,6 +1,7 @@
 <?xml version="1.0"?>
 <launch>
   <arg name="enemy_level" default="1"/>
+  <arg name="side" default="r" />
 
 <!-- Your robot control node run  red side-->
   <include file="$(find burger_war_dev)/launch/your_burger.launch">
@@ -29,7 +30,48 @@
         <arg name="name_space" value="enemy_bot" />
       </include>  
     </group>
-  </group>
 
+    <!-- level 4 (if you want to run , set launch arg enemy_level=4 --> 
+    <group if="$(eval enemy_level==4)"> 
+      <include file="$(find burger_war_level4)/launch/your_burger.launch">
+        <arg name="robot_namespace" value="enemy_bot" />
+	<arg name="side" value="b" />
+      </include>  
+    </group>
+
+    <!-- level 5 (if you want to run , set launch arg enemy_level=5 --> 
+    <group if="$(eval enemy_level==5)"> 
+      <include file="$(find burger_war_level5)/launch/your_burger.launch">
+        <arg name="robot_namespace" value="enemy_bot" />
+	<arg name="side" value="b" />
+      </include>  
+    </group>
+
+    <!-- level 6 (if you want to run , set launch arg enemy_level=6 --> 
+    <group if="$(eval enemy_level==6)"> 
+      <include file="$(find burger_war_level6)/launch/your_burger.launch">
+        <arg name="robot_namespace" value="enemy_bot" />
+	<arg name="side" value="b" />
+      </include>  
+    </group>
+
+    <!-- level 7 (if you want to run , set launch arg enemy_level=7 --> 
+    <group if="$(eval enemy_level==7)"> 
+      <include file="$(find burger_war_level7)/launch/your_burger.launch">
+        <arg name="robot_namespace" value="enemy_bot" />
+	<arg name="side" value="b" />
+      </include>  
+    </group>
+
+    <!-- level 8 (if you want to run , set launch arg enemy_level=8 --> 
+    <group if="$(eval enemy_level==8)"> 
+      <include file="$(find burger_war_level8)/launch/your_burger.launch">
+        <arg name="robot_namespace" value="enemy_bot" />
+	<arg name="side" value="b" />
+      </include>  
+    </group>
+
+  </group>
+  
 </launch>
 

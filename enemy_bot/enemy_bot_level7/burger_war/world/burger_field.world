@@ -1,0 +1,504 @@
+<?xml version="1.0" ?>
+<sdf version="1.4">
+<world name="onigiri_field">
+
+<scene>
+  <shadows>false</shadows>
+</scene>
+
+<physics name="ode_100iters" type="ode">
+  <real_time_update_rate>1000</real_time_update_rate>
+  <!-- <real_time_update_rate>2000</real_time_update_rate> -->
+  <max_step_size>0.001</max_step_size>
+</physics>
+
+<gui>
+  <camera name="camera">
+    <pose>1.5 -5. 6. 0.0 .85 1.8</pose>
+    <view_controller>orbit</view_controller>
+  </camera>
+</gui>
+<include><uri>model://sun</uri></include>
+<include><uri>model://my_ground_plane</uri></include>
+
+
+
+<!-- Centor BOX -->
+<include>
+  <name>box_0</name>
+  <pose>0 0 0.1 0 0 0</pose>
+  <uri>model://center_box</uri>
+</include>
+<include>
+  <name>plate_1</name>
+  <pose>0 0.1755 0.1 0 0 0</pose>
+  <uri>model://plate</uri>
+</include>
+<model name="box_0_tag_1">
+  <static>true</static>
+  <pose>0 0.176 0.1 0 0 0</pose>
+  <link name="link">
+    <visual name="visual">
+      <geometry><box><size>0.03 0.001 0.03</size></box></geometry>
+      <material>
+        <script>
+          <uri>model://tags</uri> <name>0001</name>
+        </script>
+      </material>
+    </visual>
+  </link>
+</model>
+
+<include>
+  <name>plate_2</name>
+  <pose>0 -0.1755 0.1 0 0 0</pose>
+  <uri>model://plate</uri>
+</include>
+<model name="box_0_tag_2">
+  <static>true</static>
+  <pose>0 -0.176 0.1 0 0 0</pose>
+  <link name="link">
+    <visual name="visual">
+      <geometry><box><size>0.03 0.001 0.03</size></box></geometry>
+      <material>
+        <script>
+          <uri>model://tags</uri>
+          <name>0002</name>
+        </script>
+      </material>
+    </visual>
+  </link>
+</model>
+
+<include>
+  <name>plate_3</name>
+  <pose>0.1755 0 0.1 0 0 1.571</pose>
+  <uri>model://plate</uri>
+</include>
+<model name="box_0_tag_3">
+  <static>true</static>
+  <pose>0.176 0 0.1 0 0 1.571</pose>
+  <link name="link">
+    <visual name="visual">
+      <geometry><box><size>0.03 0.001 0.03</size></box></geometry>
+      <material>
+        <script>
+          <uri>model://tags</uri>
+          <name>0003</name>
+        </script>
+      </material>
+    </visual>
+  </link>
+</model>
+
+<include>
+  <name>plate_4</name>
+  <pose>-0.1755 0 0.1 0 0 1.571</pose>
+  <uri>model://plate</uri>
+</include>
+<model name="box_0_tag_4">
+  <static>true</static>
+  <pose>-0.176 0 0.1 0 0 1.571</pose>
+  <link name="link">
+    <visual name="visual">
+      <geometry><box><size>0.03 0.001 0.03</size></box></geometry>
+      <material>
+        <script>
+          <uri>model://tags</uri>
+          <name>0004</name>
+        </script>
+      </material>
+    </visual>
+  </link>
+</model>
+
+
+
+<!-- Corner BOX -->
+
+
+
+<include>
+  <name>box_1</name>
+  <pose>0.53 0.53 0.1 0 0 0</pose>
+  <uri>model://corner_box</uri>
+</include>
+<include>
+  <name>plate_5</name>
+  <pose>0.53 0.61 0.1 0 0 0</pose>
+  <uri>model://plate</uri>
+</include>
+<model name="box_1_tag_5">
+  <static>true</static>
+  <pose>0.53 0.615 0.1 0 0 0</pose>
+  <link name="link">
+    <visual name="visual">
+      <geometry><box><size>0.03 0.001 0.03</size></box></geometry>
+      <material>
+        <script>
+          <uri>model://tags</uri>
+          <name>0005</name>
+        </script>
+      </material>
+    </visual>
+  </link>
+</model>
+
+<include>
+  <name>plate_6</name>
+  <pose>0.53 0.45 0.1 0 0 0</pose>
+  <uri>model://plate</uri>
+</include>
+<model name="box_1_tag_6">
+  <static>true</static>
+  <pose>0.53 0.445 0.1 0 0 0</pose>
+  <link name="link">
+    <visual name="visual">
+      <geometry><box><size>0.03 0.001 0.03</size></box></geometry>
+      <material>
+        <script>
+          <uri>model://tags</uri>
+          <name>0006</name>
+        </script>
+      </material>
+    </visual>
+  </link>
+</model>
+
+
+
+<include>
+  <name>box_2</name>
+  <pose>0.53 -0.53 0.1 0 0 0</pose>
+  <uri>model://corner_box</uri>
+</include>
+<include>
+  <name>plate_7</name>
+  <pose>0.53 -0.45 0.1 0 0 0</pose>
+  <uri>model://plate</uri>
+</include>
+<model name="box_2_tag_7">
+  <static>true</static>
+  <pose>0.53 -0.445 0.1 0 0 0</pose>
+  <link name="link">
+    <visual name="visual">
+      <geometry><box><size>0.03 0.001 0.03</size></box></geometry>
+      <material>
+        <script>
+          <uri>model://tags</uri>
+          <name>0007</name>
+        </script>
+      </material>
+    </visual>
+  </link>
+</model>
+
+<include>
+  <name>plate_8</name>
+  <pose>0.53 -0.61 0.1 0 0 0</pose>
+  <uri>model://plate</uri>
+</include>
+<model name="box_2_tag_8">
+  <static>true</static>
+  <pose>0.53 -0.615 0.1 0 0 0</pose>
+  <link name="link">
+    <visual name="visual">
+      <geometry><box><size>0.03 0.001 0.03</size></box></geometry>
+      <material>
+        <script>
+          <uri>model://tags</uri>
+          <name>0008</name>
+        </script>
+      </material>
+    </visual>
+  </link>
+</model>
+
+
+
+
+
+<include>
+  <name>box_3</name>
+  <pose>-0.53 0.53 0.1 0 0 0</pose>
+  <uri>model://corner_box</uri>
+</include>
+<include>
+  <name>plate_9</name>
+  <pose>-0.53 0.61 0.1 0 0 0</pose>
+  <uri>model://plate</uri>
+</include>
+<model name="box_3_tag_9">
+  <static>true</static>
+  <pose>-0.53 0.615 0.1 0 0 0</pose>
+  <link name="link">
+    <visual name="visual">
+      <geometry><box><size>0.03 0.001 0.03</size></box></geometry>
+      <material>
+        <script>
+          <uri>model://tags</uri>
+          <name>0009</name>
+        </script>
+      </material>
+    </visual>
+  </link>
+</model>
+
+<include>
+  <name>plate_10</name>
+  <pose>-0.53 0.45 0.1 0 0 0</pose>
+  <uri>model://plate</uri>
+</include>
+<model name="box_3_tag_10">
+  <static>true</static>
+  <pose>-0.53 0.445 0.1 0 0 0</pose>
+  <link name="link">
+    <visual name="visual">
+      <geometry><box><size>0.03 0.001 0.03</size></box></geometry>
+      <material>
+        <script>
+          <uri>model://tags</uri>
+          <name>0010</name>
+        </script>
+      </material>
+    </visual>
+  </link>
+</model>
+
+
+
+<include>
+  <name>box_4</name>
+  <pose>-0.53 -0.53 0.1 0 0 0</pose>
+  <uri>model://corner_box</uri>
+</include>
+<include>
+  <name>plate_11</name>
+  <pose>-0.53 -0.45 0.1 0 0 0</pose>
+  <uri>model://plate</uri>
+</include>
+<model name="box_4_tag_11">
+  <static>true</static>
+  <pose>-0.53 -0.445 0.1 0 0 0</pose>
+  <link name="link">
+    <visual name="visual">
+      <geometry><box><size>0.03 0.001 0.03</size></box></geometry>
+      <material>
+        <script>
+          <uri>model://tags</uri>
+          <name>0011</name>
+        </script>
+      </material>
+    </visual>
+  </link>
+</model>
+
+<include>
+  <name>plate_12</name>
+  <pose>-0.53 -0.61 0.1 0 0 0</pose>
+  <uri>model://plate</uri>
+</include>
+<model name="box_4_tag_12">
+  <static>true</static>
+  <pose>-0.53 -0.615 0.1 0 0 0</pose>
+  <link name="link">
+    <visual name="visual">
+      <geometry><box><size>0.03 0.001 0.03</size></box></geometry>
+      <material>
+        <script>
+          <uri>model://tags</uri>
+          <name>0012</name>
+        </script>
+      </material>
+    </visual>
+  </link>
+</model>
+
+
+
+
+
+<!-- WALL -->
+
+
+
+
+
+  
+  
+  
+  
+  
+  
+  
+
+  <model name="wall_1">
+    <static>true</static>
+    <pose>0.8485 0.8485 0.15 0 0 -0.785398163397</pose>
+    <link name="link">
+      <collision name='visual'>
+        <geometry>
+          <box>
+            <size>2.39992041535 0.0001 0.3</size>
+          </box>
+        </geometry>
+      </collision>
+      <visual name='visual'>
+        <geometry>
+          <box>
+            <size>2.39992041535 0.0001 0.3</size>
+          </box>
+        </geometry>
+        <material>
+          <script>
+            <uri>model://wall</uri>
+            <name>wall_1</name>
+          </script>
+        </material>
+      </visual>
+    </link>
+  </model>
+
+
+  
+  
+  
+  
+  
+  
+  
+
+  <model name="wall_2">
+    <static>true</static>
+    <pose>0.8485 -0.8485 0.15 0 0 -2.35619449019</pose>
+    <link name="link">
+      <collision name='visual'>
+        <geometry>
+          <box>
+            <size>2.39992041535 0.0001 0.3</size>
+          </box>
+        </geometry>
+      </collision>
+      <visual name='visual'>
+        <geometry>
+          <box>
+            <size>2.39992041535 0.0001 0.3</size>
+          </box>
+        </geometry>
+        <material>
+          <script>
+            <uri>model://wall</uri>
+            <name>wall_2</name>
+          </script>
+        </material>
+      </visual>
+    </link>
+  </model>
+
+
+  
+  
+  
+  
+  
+  
+  
+
+  <model name="wall_3">
+    <static>true</static>
+    <pose>-0.8485 -0.8485 0.15 0 0 2.35619449019</pose>
+    <link name="link">
+      <collision name='visual'>
+        <geometry>
+          <box>
+            <size>2.39992041535 0.0001 0.3</size>
+          </box>
+        </geometry>
+      </collision>
+      <visual name='visual'>
+        <geometry>
+          <box>
+            <size>2.39992041535 0.0001 0.3</size>
+          </box>
+        </geometry>
+        <material>
+          <script>
+            <uri>model://wall</uri>
+            <name>wall_3</name>
+          </script>
+        </material>
+      </visual>
+    </link>
+  </model>
+
+
+  
+  
+  
+  
+  
+  
+  
+
+  <model name="wall_4">
+    <static>true</static>
+    <pose>-0.8485 0.8485 0.15 0 0 0.785398163397</pose>
+    <link name="link">
+      <collision name='visual'>
+        <geometry>
+          <box>
+            <size>2.39992041535 0.0001 0.3</size>
+          </box>
+        </geometry>
+      </collision>
+      <visual name='visual'>
+        <geometry>
+          <box>
+            <size>2.39992041535 0.0001 0.3</size>
+          </box>
+        </geometry>
+        <material>
+          <script>
+            <uri>model://wall</uri>
+            <name>wall_4</name>
+          </script>
+        </material>
+      </visual>
+    </link>
+  </model>
+
+
+<!-- RED and BLUE maker -->
+<model name="blue_maker">
+  <static>true</static>
+  <link name="link">
+    <visual name="visual">
+      <pose>0 3 0 0 0 0</pose>
+      <geometry>
+        <cylinder>
+          <radius>0.3</radius>
+          <length>0.1</length>
+        </cylinder>
+      </geometry>
+      <material><script><name>Gazebo/Blue</name></script></material>
+    </visual>
+  </link>
+</model>
+<model name="red_maker">
+  <static>true</static>
+  <link name="link">
+    <visual name="visual">
+      <pose>0 -3 0 0 0 0</pose>
+      <geometry>
+        <cylinder>
+          <radius>0.3</radius>
+          <length>0.1</length>
+        </cylinder>
+      </geometry>
+      <material><script><name>Gazebo/Red</name></script></material>
+    </visual>
+  </link>
+</model>
+
+</world>
+</sdf>

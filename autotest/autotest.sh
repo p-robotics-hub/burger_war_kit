@@ -96,10 +96,10 @@ do
     #do_game ${i} 1 225 "b" # 180 * 5/4 # only enemy level1,2,3 works r side
     #do_game ${i} 2 225 "b" # 180 * 5/4 # 
     #do_game ${i} 3 225 "b" # 180 * 5/4 # 
-#    do_game ${i} 4 225 # 180 * 5/4
-#    do_game ${i} 5 225 # 180 * 5/4
-#    do_game ${i} 6 225 # 180 * 5/4
-#    do_game ${i} 7 225 # 180 * 5/4
-#    do_game ${i} 8 225 # 180 * 5/4
+    do_game ${i} 4 225 # 180 * 5/4
+    do_game ${i} 5 225 # 180 * 5/4
+    do_game ${i} 6 225 # 180 * 5/4
+    do_game ${i} 7 225 # 180 * 5/4
+    do_game ${i} 8 225 # 180 * 5/4
     #do_push
 done

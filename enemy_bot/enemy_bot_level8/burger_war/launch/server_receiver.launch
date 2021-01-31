@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="side" default="r"/> <!-- "b" = blue side, "r" = red side  -->
+
+    <!-- You can change control program  -->
+
+    <!-- sample program node -->
+    <node pkg="burger_war" type="receive_server.py" name="receive_server" output="screen">
+     <param name="side" value="$(arg side)" />
+     <param name="focous_dist" value="0.20"/>
+     <param name="current_dir" value= "$(find burger_war)/scripts"/>
+    </node>
+    <!-- END sample program node -->
+
+    <!-- End of your space  -->
+</launch>
