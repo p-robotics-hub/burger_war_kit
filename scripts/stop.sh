@@ -55,6 +55,8 @@ function try_kill_process(){
 function stop_process(){    
     try_kill_process "judgeServer.py"
     try_kill_process "JudgeWindow.py"
+    try_kill_process "start.sh"
+    try_kill_process "sim_with_judge.sh"    
     try_kill_process "setup_sim.launch"
 }
 
