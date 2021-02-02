@@ -59,9 +59,6 @@ do
       ;;
     \? ) # 不正オプション時のUSAGE表示
       usage_exit
-      ;;
-      * ) echo "USAGE: ${CMD_NAME} [-a docker-build-args] [-v version]" 1>&2
-          exit 1 ;;
   esac
 done
 shift $((OPTIND - 1))
@@ -93,6 +90,7 @@ docker run \
   --mount type=bind,src=/tmp/.X11-unix/,dst=/tmp/.X11-unix \
   --mount type=bind,src=${HOST_WS_DIR},dst=${CONTAINER_WS_DIR} \
   --device /dev/snd \
+  --device /dev/shm \
   -e DISPLAY=${DISPLAY} \
   -e HOST_USER_ID=$(id -u) \
   -e HOST_GROUP_ID=$(id -g) \
