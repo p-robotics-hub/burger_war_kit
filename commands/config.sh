@@ -13,7 +13,7 @@ KIT_DOCKER_CONTAINER_NAME=${KIT_DOCKER_IMAGE_NAME}
 #----------------------------------------------------------
 # Local config values
 #----------------------------------------------------------
-# 開発者ユーザー名
+# 開発者ユーザー名(変更する場合はburger_war_devも見直すこと)
 DEVELOPER_NAME=developer
 
 # GitHubのPersonal access tokensを保存したファイルのパス

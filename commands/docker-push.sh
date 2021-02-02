@@ -1,7 +1,6 @@
 #!/bin/bash
 ###############################################################################
 #-burger-war-kitのイメージをghcr.ioへpushする
-#-予めアクセストークンファイル($HOME/.github-token)を用意しておく必要がある
 #-
 #+[USAGE]
 #+  $0 [-l] [-v イメージのバージョン] [-h]
@@ -64,9 +63,9 @@ shift $((OPTIND - 1))
 # イメージにタグ付けしてpushする
 #------------------------------------------------
 # add tag
-docker tag ${KIT_DOCKER_IMAGE_NAME} ${REGISTRY_URL}/${KIT_DOCKER_IMAGE_NAME}:${IMAGE_VERSION}
+docker tag ${KIT_DOCKER_IMAGE_NAME}:${IMAGE_VERSION} ${REGISTRY_URL}/${KIT_DOCKER_IMAGE_NAME}:${IMAGE_VERSION}
 
-if [ "$LOCAL_ONLY" == "" ]; then
+if [ -z "${LOCAL_ONLY}" ]; then
   # push image
   docker push ${REGISTRY_URL}/${KIT_DOCKER_IMAGE_NAME}:${IMAGE_VERSION}
 fi
