@@ -3,8 +3,24 @@ burger_war_kitリポジトリでは、[burger_war_dev](https://github.com/p-robo
 
 本ドキュメントには、burger-war-kitイメージを開発するための情報を記載しています。
 
-<!-- START doctoc -->
-<!-- END doctoc -->
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**
+
+- [Dockerイメージの構成](#docker%E3%82%A4%E3%83%A1%E3%83%BC%E3%82%B8%E3%81%AE%E6%A7%8B%E6%88%90)
+- [Docker関連のファイル構成](#docker%E9%96%A2%E9%80%A3%E3%81%AE%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB%E6%A7%8B%E6%88%90)
+- [開発の流れ](#%E9%96%8B%E7%99%BA%E3%81%AE%E6%B5%81%E3%82%8C)
+- [事前準備](#%E4%BA%8B%E5%89%8D%E6%BA%96%E5%82%99)
+  - [Personal access token の作成](#personal-access-token-%E3%81%AE%E4%BD%9C%E6%88%90)
+- [コマンド](#%E3%82%B3%E3%83%9E%E3%83%B3%E3%83%89)
+  - [burger-war-kitイメージのビルド](#burger-war-kit%E3%82%A4%E3%83%A1%E3%83%BC%E3%82%B8%E3%81%AE%E3%83%93%E3%83%AB%E3%83%89)
+  - [burger-war-kitイメージからコンテナを起動](#burger-war-kit%E3%82%A4%E3%83%A1%E3%83%BC%E3%82%B8%E3%81%8B%E3%82%89%E3%82%B3%E3%83%B3%E3%83%86%E3%83%8A%E3%82%92%E8%B5%B7%E5%8B%95)
+  - [ghcr.ioへのログイン](#ghcrio%E3%81%B8%E3%81%AE%E3%83%AD%E3%82%B0%E3%82%A4%E3%83%B3)
+  - [burger-war-kitイメージをghcr.ioへプッシュ](#burger-war-kit%E3%82%A4%E3%83%A1%E3%83%BC%E3%82%B8%E3%82%92ghcrio%E3%81%B8%E3%83%97%E3%83%83%E3%82%B7%E3%83%A5)
+- [スクリプト設定ファイル](#%E3%82%B9%E3%82%AF%E3%83%AA%E3%83%97%E3%83%88%E8%A8%AD%E5%AE%9A%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB)
+- [補足](#%E8%A3%9C%E8%B6%B3)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 ## Dockerイメージの構成
 
