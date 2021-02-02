@@ -233,18 +233,16 @@ burger_war_dev https://github.com/p-robotics-hub/burger_war_kit を参加者がF
 │   ├── launch  launchファイルの置き場
 │   │   └── your_burger.launch  【このファイルで起動するノードを制御します】参加者用launchファイル
 │   ├── scripts    【ここにプログラムを書いていきます】pythonで書かれたROSノード
-│   ├── src    【ここにプログラムを書いていきます】C++で書かれたROSノード
-│   └── launch  launchファイルの置き場
-│       └── your_burger.launch  【このファイルで起動するノードを制御します】
+│   └── src    【ここにプログラムを書いていきます】C++で書かれたROSノード
 │
-├── burger_war_navigation 自律移動のサンプルプログラムが入ったPackage
+├── burger_navigation 自律移動のサンプルプログラムが入ったPackage
 │   ├── launch  launchファイルの置き場
 │   │   ├── burger_navigation.launch  自律移動を起動するLaunchファイル
 │   │   └── burger_slam.launch  地図を生成するためのLaunchファイル
 │   ├── maps    自律移動で使う地図
 │   ├── param   自律移動のパラメーターファイル
 │   └── rviz    RVizの設定ファイル
-├── STARTUP_GUDE.md  Dockerコンテナを使った開発環境構築マニュアル
+├── STARTUP_GUIDE.md  Dockerコンテナを使った開発環境構築マニュアル
 ├── commands  Dockerコンテナを使った開発環境構築用のコマンド群
 └── docker  Dockerコンテナを使った開発環境構築用のファイル
 
