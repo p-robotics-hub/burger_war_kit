@@ -7,15 +7,15 @@
         <pose>0 0 0 0 0 0</pose>
         <geometry>
           <mesh>
-            <uri>model://disc/disc5_4.stl</uri>
+            <uri>model://disc/disc.stl</uri>
             <scale>0.001 0.001 0.001</scale>
           </mesh>
         </geometry>
           <surface>
             <friction>
               <ode>
-                <mu>0.8</mu>
-                <mu2>0.8</mu2>
+                <mu>0.95</mu>
+                <mu2>0.95</mu2>
               </ode>
             </friction>
           </surface>
@@ -24,7 +24,7 @@
         <pose>0 0 0 0 0 0</pose>
         <geometry>
           <mesh>
-            <uri>model://disc/disc5_4.stl</uri>
+            <uri>model://disc/disc.stl</uri>
             <scale>0.001 0.001 0.001</scale>
           </mesh>
         </geometry>

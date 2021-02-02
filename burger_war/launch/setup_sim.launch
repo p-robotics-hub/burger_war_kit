@@ -52,6 +52,7 @@
   
 <!-- enemy burger blue side -->
   <group ns="enemy_bot">
+      
       <!-- spawn the robot -->
       <param name="robot_description" command="$(find xacro)/xacro --inorder $(find burger_war)/models/blue_bot.urdf.xacro" />
       <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" args="-urdf -x 0.0 -y 1.3 -z 0.0 -Y -1.57 -model blue_bot -param robot_description">
@@ -67,6 +68,12 @@
       <node pkg="burger_war" type="speedLimitter.py" name="speed_limitter" output="screen">
       </node>
 
+      <!-- Odometory Publisher  -->
+      <node pkg="burger_war" type="calcOdom.py" name="odom_publisher" output="screen">
+        <param name="initial_theta" value="-1.57075" />
+        <param name="tf_prefix" value="enemy_bot"/>
+      </node>
+      
       <!-- ar reader -->
       <node pkg="aruco_ros" type="marker_publisher" name="aruco_marker_publisher">
           <param name="use_camera_info" value="False"/>

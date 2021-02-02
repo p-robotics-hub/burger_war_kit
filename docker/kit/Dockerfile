@@ -29,6 +29,7 @@ RUN apt-get update -q && apt-get install -y --no-install-recommends \
         dbus-x11 \
         at-spi2-core \
         python-tk \
+        python-pil \
         python-pil.imagetk \
         python-catkin-tools \
     && rm -rf /var/lib/apt/lists/*
@@ -41,6 +42,18 @@ RUN apt-get update -q && apt-get install -y --no-install-recommends \
 
 RUN apt-get update -q && apt-get install -y --no-install-recommends \
         ros-${ROS_DISTRO}-turtlebot3-simulations \
+        ros-${ROS_DISTRO}-teleop-twist-keyboard \
+        ros-${ROS_DISTRO}-amcl \
+        ros-${ROS_DISTRO}-map-server \
+        ros-${ROS_DISTRO}-move-base \
+        ros-${ROS_DISTRO}-urdf \
+        ros-${ROS_DISTRO}-xacro \
+        ros-${ROS_DISTRO}-compressed-image-transport \
+        ros-${ROS_DISTRO}-rqt-image-view \
+        ros-${ROS_DISTRO}-gmapping \
+        ros-${ROS_DISTRO}-navigation \
+        ros-${ROS_DISTRO}-interactive-markers \
+        ros-${ROS_DISTRO}-hector-gazebo-plugins \
     && rm -rf /var/lib/apt/lists/*
 
 RUN yes | pip install \

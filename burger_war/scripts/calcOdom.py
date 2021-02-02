@@ -7,7 +7,8 @@
 import sys
 import math
 import rospy
-import tf
+import tf2_ros
+import tf_conversions
 import geometry_msgs.msg
 from nav_msgs.msg import Odometry
 
@@ -33,14 +34,16 @@ class CalcOdom():
         self.last_tick_left = 0.0
         self.last_tick_right = 0.0
 
+
         # flag
         self.imu_ok=False
         self.jointstate_ok=False
 
-    def __init__(self,initial_pose=[0,0,0]):        
+    def __init__(self,initial_pose=[0,0,0],tf_prefix=""):        
         rospy.loginfo(initial_pose)
 
         self.initial_pose=initial_pose
+        self.tf_prefix=tf_prefix
 
         self.reset_pose(initial_pose)
 
@@ -55,7 +58,7 @@ class CalcOdom():
 
         self.odom = Odometry()
         self.odom_tf = geometry_msgs.msg.TransformStamped()
-        self.tf_broadcaster = tf.TransformBroadcaster()
+        self.tf_broadcaster = tf2_ros.TransformBroadcaster()
 
     # imu call back sample
     # update imu state
@@ -131,7 +134,7 @@ class CalcOdom():
         self.odom.pose.pose.position.x = self.odom_pose[0]
         self.odom.pose.pose.position.y = self.odom_pose[1]
         self.odom.pose.pose.position.z = 0
-        quaternion = tf.transformations.quaternion_from_euler(0,0,self.odom_pose[2])
+        quaternion = tf_conversions.transformations.quaternion_from_euler(0,0,self.odom_pose[2])
         self.odom.pose.pose.orientation.x = quaternion[0]
         self.odom.pose.pose.orientation.y = quaternion[1]
         self.odom.pose.pose.orientation.z = quaternion[2]
@@ -143,8 +146,12 @@ class CalcOdom():
 
         self.odom.header.stamp=stamp
 
-        self.odom.header.frame_id=self.odom_header_frame_id
-        self.odom.child_frame_id=self.odom_child_frame_id
+        if self.tf_prefix != "":
+            self.odom.header.frame_id=self.tf_prefix + "/" + self.odom_header_frame_id
+            self.odom.child_frame_id=self.tf_prefix + "/" + self.odom_child_frame_id
+        else:
+            self.odom.header.frame_id=self.odom_header_frame_id
+            self.odom.child_frame_id=self.odom_child_frame_id
 
         return self.odom
 
@@ -173,7 +180,7 @@ class CalcOdom():
 
                 self.updateTF()
 
-                self.tf_broadcaster.sendTransformMessage(self.odom_tf)
+                self.tf_broadcaster.sendTransform(self.odom_tf)
             try:
                 r.sleep()
             except rospy.exceptions.ROSTimeMovedBackwardsException:
@@ -188,9 +195,9 @@ if __name__ == '__main__':
     rospy.init_node('calcodom')    
 
     initial_theta=rospy.get_param("~initial_theta",0.0)
-
+    tf_prefix=rospy.get_param("~tf_prefix","")
     
-    calc_odom = CalcOdom([0.0,0.0,initial_theta])
+    calc_odom = CalcOdom([0.0,0.0,initial_theta],tf_prefix)
 
     rospy.sleep(2)
     calc_odom.loop()
