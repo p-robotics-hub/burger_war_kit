@@ -1,0 +1,29 @@
+# 各手順書の目次更新
+name: Update Markown TOC
+
+# トリガーイベントの指定
+on:
+  push:
+    branches:
+      - master
+      - with_docker
+    paths: 
+      - '**.md'
+
+  # GitHub Actionsの手動実行の許可
+  workflow_dispatch:
+
+# 実行する処理
+jobs:
+  UpdateTOC:
+    name: UpdateToc
+    runs-on: ubuntu-latest
+    steps:
+      - name: TOC Generator
+        uses: technote-space/toc-generator@v3
+        with:
+          # 目次を更新するファイル
+          TARGET_PATHS: doc/FOR_MAINTAINER.md
+          # 目次を作成する最大階層レベル
+          MAX_HEADER_LEVEL: 3
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
