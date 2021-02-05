@@ -41,8 +41,17 @@ jobs:
       # burger-war-kitコンテナ起動
       - name: Launch Docker Container
         run: |
-          docker run -d --rm --name ${{ env.IMAGE_NAME }} ${{ env.IMAGE_NAME }} tail -f /dev/null
+          docker run \
+            --name ${{ env.IMAGE_NAME }} \
+            -d \
+            --privileged \
+            --net host \
+            -e HOST_USER_ID=1000 \
+            -e HOST_GROUP_ID=1000 \
+            ${{ env.IMAGE_NAME }}:latest \
+            tail -f /dev/null
           docker ps -a
+          docker logs ${{ env.IMAGE_NAME }}
       
       # burger-war-kitのテスト
       - name: Launch Docker Image
