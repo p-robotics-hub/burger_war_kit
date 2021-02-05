@@ -1,4 +1,4 @@
-name: Docker Base Image Build & Publish 
+name: Docker Base Image Build & Test 
 
 # 実行するイベントの指定
 on:
@@ -12,6 +12,15 @@ on:
     paths:
       - 'docker/**'
       - '.github/workflows/build-release.yml'
+
+  # ブラウザ上からの手動実行設定
+  workflow_dispatch:
+    # inputs:
+    #   any_param1:
+    #     required: true
+    #     description: パラメータ説明
+    #     default: value
+    #   any_param2:
 
 # 環境変数の設定
 env:
