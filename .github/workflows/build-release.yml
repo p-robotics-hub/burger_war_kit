@@ -34,15 +34,20 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      # Dockerイメージのビルド
+      # burger-war-kitイメージのビルド
       - name: Build Docker Image
         run: docker build --file ${{ env.DOCKER_FILE }} --tag ${{ env.IMAGE_NAME }} ${{ env.DOCKER_ROOT_DIR }}
 
-      # Dockerイメージのテスト
-      - name: Test Docker Image
-        id: image-test
+      # burger-war-kitコンテナ起動
+      - name: Launch Docker Container
         run: |
-          docker run -d --rm --name ${{ env.IMAGE_NAME }} ${{ env.IMAGE_NAME }} tail -f /dev/null && docker exec -t ${{ env.IMAGE_NAME }} echo "This is test echo."
+          docker run -d --rm --name ${{ env.IMAGE_NAME }} ${{ env.IMAGE_NAME }} tail -f /dev/null
+          docker ps -a
+      
+      # burger-war-kitのテスト
+      - name: Launch Docker Image
+        id: image-test
+        run: docker exec -t ${{ env.IMAGE_NAME }} echo "This is test echo."
 
       # ghcr.ioにログイン
       - name: Login to ghrc.io
@@ -52,7 +57,7 @@ jobs:
           username: ${{ secrets.GHCR_USERNAME }}
           password: ${{ secrets.GHCR_PASSWORD }}
 
-      # Dockerイメージをテストバージョンとしてプッシュ
+      # burger-war-kitrイメージをテストバージョンとしてプッシュ
       - name: Push Docker Image
         run: |
           docker tag ${{ env.IMAGE_NAME }} ${{ env.RESISTRY_URL }}/${{ env.IMAGE_NAME }}:${{ env.TEST_VERSION }}
