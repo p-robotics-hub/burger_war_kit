@@ -7,7 +7,7 @@ on:
     branches:
       - auto_build
       - with_docker
-      - main
+      - dev
 
     paths:
       - 'docker/**'
@@ -19,7 +19,7 @@ env:
   RESISTRY_URL: ghcr.io/${{ github.repository_owner }}
   IMAGE_NAME: burger-war-kit
   DOCKER_ROOT_DIR: ./docker
-  DOCKER_FILE: ./kit/Dockerfile
+  DOCKER_FILE: ./docker/kit/Dockerfile
   TEST_VERSION: test.${{ github.run_number }}
   RELEASE_VERSION: 4.1.1
 
