@@ -1,11 +1,13 @@
-name: Docker Image Build & Publish
+name: Docker Base Image Build & Publish 
 
 # 実行するイベントの指定
 on:
   # 指定ブランチで指定ファイルがPUSHされたときに実行する
   push:
     branches:
-      - with-docker
+      - auto_build
+      - with_docker
+      - main
 
     paths:
       - 'docker/**'
@@ -14,34 +16,44 @@ on:
 # 環境変数の設定
 env:
   DOCKER_BUILDKIT: 1
+  RESISTRY_URL: ghcr.io/${{ github.repository_owner }}
   IMAGE_NAME: burger-war-kit
-  DOCKER_FILE: docker/kit/Dockerfile
-  RELEASE_VERSION: 0.0.1
+  DOCKER_ROOT_DIR: ./docker
+  DOCKER_FILE: ./kit/Dockerfile
+  TEST_VERSION: test.${{ github.run_number }}
+  RELEASE_VERSION: 4.1.1
 
 jobs:
-  # ビルドしてGitHub Container Registryにpushする
-  build-push:
-    # needs: build-test
+  # ビルドとテストを実施し、テストにPASSすれば、仮バージョンでプッシュ
+  build-test:
+
+    runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
+      # 環境準備
+      - name: Checkout repository
+        uses: actions/checkout@v2
 
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v1
+      # Dockerイメージのビルド
+      - name: Build Docker Image
+        run: docker build --file ${{ env.DOCKER_FILE }} --tag ${{ env.IMAGE_NAME }} ${{ env.DOCKER_ROOT_DIR }}
 
-      - name: Login to GitHub Container Registry
+      # Dockerイメージのテスト
+      - name: Test Docker Image
+        id: image-test
+        run: |
+          docker run -d --rm --name ${{ env.IMAGE_NAME }} ${{ env.IMAGE_NAME }} tail -f /dev/null && docker exec -t ${{ env.IMAGE_NAME }} echo "This is test echo."
+
+      # ghcr.ioにログイン
+      - name: Login to ghrc.io
         uses: docker/login-action@v1
         with:
           registry: ghcr.io
-          username: ${{ github.repository_owner }}
-          password: ${{ secrets.CR_PAT }}
+          username: ${{ secrets.GHCR_USERNAME }}
+          password: ${{ secrets.GHCR_PASSWORD }}
 
-      - name: Build and Push
-        uses: docker/build-push-action@v2
-        with:
-          context: .
-          file: ${{ env.DOCKER_FILE }}
-          push: true
-          tags: |
-            # ghcr.io/${{ github.repository_owner }}/${{ env.IMAGE_NAME }}:latest
-            ghcr.io/${{ github.repository_owner }}/${{ env.IMAGE_NAME }}:${{ env.RELEASE_VERSION }}
+      # Dockerイメージをテストバージョンとしてプッシュ
+      - name: Push Docker Image
+        run: |
+          docker tag ${{ env.IMAGE_NAME }} ${{ env.RESISTRY_URL }}/${{ env.IMAGE_NAME }}:${{ env.TEST_VERSION }}
+          docker push ${{ env.RESISTRY_URL }}/${{ env.IMAGE_NAME }}:${{ env.TEST_VERSION }}
