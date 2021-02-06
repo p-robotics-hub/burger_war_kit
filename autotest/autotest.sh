@@ -27,9 +27,14 @@ function do_game(){
     # change directory
     pushd ${BURGER_WAR_KIT_REPOSITORY}
 
+    # wakeup gazebo/judgeserver
+    PROCESS_NUM=`ps -ux | grep "sim_with_judge.sh" | grep -v "grep"  | wc -l`
+    if [ $PROCESS_NUM -eq 0 ]; then
+	# wakeup at once
+	gnome-terminal -- bash scripts/sim_with_judge.sh # -s ${MY_SIDE}
+	sleep 30
+    fi
     # start
-    gnome-terminal -- bash scripts/sim_with_judge.sh # -s ${MY_SIDE}
-    sleep 30
     gnome-terminal -- bash scripts/start.sh -l ${ENEMY_LEVEL} # -s ${MY_SIDE}
 
     # wait game finish
@@ -54,12 +59,20 @@ function do_game(){
     # output result
     echo "$ITERATION, $ENEMY_LEVEL, $GAME_TIME, $DATE, $MY_SCORE, $ENEMY_SCORE, $BATTLE_RESULT, $MY_SIDE" >> $RESULTLOG
     tail -1 $RESULTLOG
-    
+
+    # reset
+    bash scripts/reset.sh
+    sleep 3
+
+    popd
+}
+
+function stop_game(){
     # stop
     # wait stop until all process is end
+    pushd ${BURGER_WAR_KIT_REPOSITORY}
     bash scripts/stop.sh -s true
     sleep 10
-
     popd
 }
 
@@ -154,3 +167,5 @@ do
     do_game ${i} 8 225 # 180 * 5/4
     #do_push
 done
+
+stop_game
