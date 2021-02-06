@@ -1,12 +1,14 @@
 #!/bin/bash -x
 
 cd $HOME/catkin_ws/src/burger_war_kit
-
+CATKIN_WS_DIR=$HOME/catkin_ws
 BURGER_WAR_KIT_REPOSITORY=$HOME/catkin_ws/src/burger_war_kit
+BURGER_WAR_DEV_REPOSITORY=$HOME/catkin_ws/src/burger_war_dev
 BURGER_WAR_AUTOTEST_LOG_REPOSITORY=$HOME/catkin_ws/src/burger_war_autotest
 RESULTLOG=$BURGER_WAR_KIT_REPOSITORY/autotest/result.log
-SRC_LOG=$RESULTLOG 
-DST_LOG=$BURGER_WAR_AUTOTEST_LOG_REPOSITORY/result/result.log
+SRC_LOG=$RESULTLOG
+TODAY=`date +"%Y%m%d"`
+DST_LOG=$BURGER_WAR_AUTOTEST_LOG_REPOSITORY/result/result-${TODAY}.log
 LATEST_GITLOG_HASH="xxxx"
 
 echo "iteration, enemy_level, game_time(s), date, my_score, enemy_score, battle_result, my_side" > $RESULTLOG
@@ -62,26 +64,71 @@ function do_game(){
 }
 
 <<COMMENTOUT
+function do_catkin_build(){
+
+    # catkin build
+    pushd $CATKIN_WS_DIR
+    catkin clean -y
+    catkin build
+    source $HOME/.bashrc
+    popd
+}
+
 function check_latest_hash(){
-    # check latest hash
+
     pushd $BURGER_WAR_KIT_REPOSITORY
     git pull
     GITLOG_HASH=`git log | head -1 | cut -d' ' -f2`
+    popd
+
+    # check latest hash
+    pushd $BURGER_WAR_DEV_REPOSITORY
+    git pull
+    GITLOG_HASH=`git log | head -1 | cut -d' ' -f2`
     if [ "$GITLOG_HASH" != "$LATEST_GITLOG_HASH" ];then
-	echo "#--> latest commit:$GITLOG_HASH" >> $RESULTLOG
+	TODAY=`date +"%Y%m%d%I%M%S"`
+	echo "#--> latest commit:${GITLOG_HASH} ${TODAY} in burger_war_dev" >> $RESULTLOG
 	LATEST_GITLOG_HASH=$GITLOG_HASH
+	do_catkin_build
     fi
+    popd
+}
+
+function do_result_analyzer(){
+    INPUTFILE=$1
+    OUTPUTFILE=$2
+    ANALYZE_FILE_NAME="result_tmp.log"
+
+    pushd $BURGER_WAR_AUTOTEST_LOG_REPOSITORY
+    # preprocess
+    LATEST_COMMIT_STR=`cat ${INPUTFILE} | grep "latest commit" | tail -1`             # get string
+    LATEST_COMMIT_LINE_N=`grep "$LATEST_COMMIT_STR" -n ${INPUTFILE} | cut -d':' -f 1` # get line from string
+    tail +${LATEST_COMMIT_LINE_N} ${INPUTFILE} > $ANALYZE_FILE_NAME                                 # get file from line
+    # analyze
+    python result_analyzer.py > ${OUTPUTFILE}                                         # get analyze matrix
     popd
 }
 
 function do_push(){
 
-    # push
+    # result log push
     pushd $BURGER_WAR_AUTOTEST_LOG_REPOSITORY/result
     git pull
     cp $SRC_LOG $DST_LOG
     git add $DST_LOG
     git commit -m "result.log update"
+    git push
+    popd
+
+    # result analyze push
+    RESULT_ANALYZER_DIR=$BURGER_WAR_AUTOTEST_LOG_REPOSITORY/result/result_analyzer
+    pushd $RESULT_ANALYZER_DIR
+    TARGET_HASH_ID=`cat ${SRC_LOG} | grep "latest commit" | tail -1 | cut -d':' -f2 | cut -d' ' -f1`
+    TODAY=`cat ${SRC_LOG} | grep "latest commit" | tail -1 | cut -d':' -f2 | cut -d' ' -f2`
+    RESULT_ANALYZE_DST_LOG=result_analyzer-${TODAY}${TARGET_HASH_ID}.log
+    do_result_analyzer $SRC_LOG ${RESULT_ANALYZER_DIR}/${RESULT_ANALYZE_DST_LOG}
+    git add $RESULT_ANALYZE_DST_LOG
+    git commit -m "result_analyzer.log update"
     git push
     popd
 }
