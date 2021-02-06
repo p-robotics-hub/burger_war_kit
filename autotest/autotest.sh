@@ -63,7 +63,8 @@ function do_game(){
     popd
 }
 
-<<COMMENTOUT
+# commentout--->
+: <<'#COMMENTOUT'
 function do_catkin_build(){
 
     # catkin build
@@ -132,7 +133,9 @@ function do_push(){
     git push
     popd
 }
-COMMENTOUT
+
+#COMMENTOUT
+# <---commentout
 
 # main loop
 for ((i=0; i<${LOOP_TIMES}; i++));
