@@ -5,3 +5,5 @@ export QT_X11_NO_MITSHM=1
 if [ -f "{{ROBOCON_WS}}/devel/setup.bash" ]; then
     source "{{ROBOCON_WS}}/devel/setup.bash"
 fi
+export no_proxy=127.0.0.1,localhost,${HOSTNAME}
+export NO_PROXY=${no_proxy}
