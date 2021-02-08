@@ -19,6 +19,25 @@ do
   esac
 done
 
+# warning
+function output_warning(){
+    # check if install package
+    array=(
+        recordmydesktop
+        gtk-recordmydesktop
+        ffmpeg
+    )
+    for e in ${array[@]}; do
+        if ! dpkg -l | grep --quiet "${e}"; then
+	    echo "---"
+            echo "!!! [Warning] ${e} not installed, install by following !!!"
+            echo "\$ sudo apt install ${e}"
+	    return 0
+            echo "!!! --------------------------------------------- !!!"
+        fi
+    done
+}
+output_warning
 
 if [ $MODE == "start" ];then
     # capture start
