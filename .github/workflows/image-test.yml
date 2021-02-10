@@ -1,17 +1,12 @@
-name: Docker Base Image Build & Test 
+name: Kit Docker Image Build & Test
 
 # 実行するイベントの指定
 on:
   # 指定ブランチで指定ファイルがPUSHされたときに実行する
   push:
-    branches:
-      - auto_build
-      - with_docker
-      - dev
-
     paths:
       - 'docker/**'
-      - '.github/workflows/build-release.yml'
+      - '.github/workflows/image-test.yml'
 
   # ブラウザ上からの手動実行設定
   workflow_dispatch:
@@ -63,7 +58,7 @@ jobs:
           docker logs ${{ env.IMAGE_NAME }}
       
       # burger-war-kitのテスト
-      - name: Launch Docker Image
+      - name: Test Docker Image
         id: image-test
         run: docker exec -t ${{ env.IMAGE_NAME }} echo "This is test echo."
 
