@@ -32,6 +32,7 @@ RUN apt-get update -q && apt-get install -y --no-install-recommends \
         python-pil \
         python-pil.imagetk \
         python-catkin-tools \
+        jq \
     && rm -rf /var/lib/apt/lists/*
 
 RUN apt-get update -q && apt-get install -y --no-install-recommends \
