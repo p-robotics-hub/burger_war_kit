@@ -1,0 +1,77 @@
+name: Kit Docker Image Build & Test
+
+# 実行するイベントの指定
+on:
+  # 指定ブランチで指定ファイルがPUSHされたときに実行する
+  push:
+    paths:
+      - 'docker/**'
+      - '.github/workflows/image-test.yml'
+
+  # ブラウザ上からの手動実行設定
+  workflow_dispatch:
+    # inputs:
+    #   any_param1:
+    #     required: true
+    #     description: パラメータ説明
+    #     default: value
+    #   any_param2:
+
+# 環境変数の設定
+env:
+  DOCKER_BUILDKIT: 1
+  RESISTRY_URL: ghcr.io/${{ github.repository_owner }}
+  IMAGE_NAME: burger-war-kit
+  DOCKER_ROOT_DIR: ./docker
+  DOCKER_FILE: ./docker/kit/Dockerfile
+  TEST_VERSION: test.${{ github.run_number }}
+  RELEASE_VERSION: 4.1.1
+
+jobs:
+  # ビルドとテストを実施し、テストにPASSすれば、仮バージョンでプッシュ
+  build-test:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      # 環境準備
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      # burger-war-kitイメージのビルド
+      - name: Build Docker Image
+        run: docker build --file ${{ env.DOCKER_FILE }} --tag ${{ env.IMAGE_NAME }} ${{ env.DOCKER_ROOT_DIR }}
+
+      # burger-war-kitコンテナ起動
+      - name: Launch Docker Container
+        run: |
+          docker run \
+            --name ${{ env.IMAGE_NAME }} \
+            -d \
+            --privileged \
+            --net host \
+            -e HOST_USER_ID=1000 \
+            -e HOST_GROUP_ID=1000 \
+            ${{ env.IMAGE_NAME }}:latest \
+            tail -f /dev/null
+          docker ps -a
+          docker logs ${{ env.IMAGE_NAME }}
+      
+      # burger-war-kitのテスト
+      - name: Test Docker Image
+        id: image-test
+        run: docker exec -t ${{ env.IMAGE_NAME }} echo "This is test echo."
+
+      # ghcr.ioにログイン
+      - name: Login to ghrc.io
+        uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{ secrets.GHCR_USERNAME }}
+          password: ${{ secrets.GHCR_PASSWORD }}
+
+      # burger-war-kitrイメージをテストバージョンとしてプッシュ
+      - name: Push Docker Image
+        run: |
+          docker tag ${{ env.IMAGE_NAME }} ${{ env.RESISTRY_URL }}/${{ env.IMAGE_NAME }}:${{ env.TEST_VERSION }}
+          docker push ${{ env.RESISTRY_URL }}/${{ env.IMAGE_NAME }}:${{ env.TEST_VERSION }}
