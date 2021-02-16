@@ -177,12 +177,12 @@ class JudgeWindow:
             width=0,
             tag="Omelette_N"
         )
-        self.Omelette_N=self.canvas.create_rectangle(
+        self.Omelette_S=self.canvas.create_rectangle(
             (0.62-0.04)*self.img.width() , (0.6-0.01)*self.img.height(),
             (0.62+0.04)*self.img.width() , (0.6+0.01)*self.img.height(),
             fill="red",
             width=0,
-            tag="Omelette_N"
+            tag="Omelette_S"
         )
         #左下
         self.Pudding_N=self.canvas.create_rectangle(
