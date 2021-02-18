@@ -68,7 +68,7 @@ docker build \
   --build-arg USERNAME=${DEVELOPER_NAME} \
   -f ${KIT_DOCKER_FILE_PATH} \
   -t ${KIT_DOCKER_IMAGE_NAME}:${IMAGE_VERSION} \
-  ${DOCKER_ROOT_DIR}
+  ${BURGER_WAR_KIT_DIR}
 set +x
 
 cat <<-EOM

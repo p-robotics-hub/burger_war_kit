@@ -6,6 +6,9 @@ on:
   push:
     paths:
       - 'docker/**'
+      - 'scripts/**'
+      - 'judge/**'
+      - 'burger_war/**'
       - '.github/workflows/image-test.yml'
 
   # ブラウザ上からの手動実行設定
@@ -22,10 +25,10 @@ env:
   DOCKER_BUILDKIT: 1
   RESISTRY_URL: ghcr.io/${{ github.repository_owner }}
   IMAGE_NAME: burger-war-kit
-  DOCKER_ROOT_DIR: ./docker
   DOCKER_FILE: ./docker/kit/Dockerfile
   TEST_VERSION: test.${{ github.run_number }}
-  RELEASE_VERSION: 4.1.1
+  TEST_LOG_ARCHIVE: test_logs-${{ github.run_number }}
+  DISPLAY: :99
 
 jobs:
   # ビルドとテストを実施し、テストにPASSすれば、仮バージョンでプッシュ
@@ -38,29 +41,54 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      # burger-war-kitイメージのビルド
+      # # burger-war-kitイメージのビルド
       - name: Build Docker Image
-        run: docker build --file ${{ env.DOCKER_FILE }} --tag ${{ env.IMAGE_NAME }} ${{ env.DOCKER_ROOT_DIR }}
+        run: docker build --file ${{ env.DOCKER_FILE }} --tag ${{ env.IMAGE_NAME }} .
+
+      # xvfbのインストールと起動
+      - name: Xvfb install and run
+        run: |
+          sudo apt-get install -y xvfb
+          Xvfb -ac ${{ env.DISPLAY }} -screen 0 1280x1024x24 >/dev/null 2>&1 &
 
       # burger-war-kitコンテナ起動
       - name: Launch Docker Container
         run: |
+          mkdir -p ${GITHUB_WORKSPACE}/catkin_ws/logs
           docker run \
             --name ${{ env.IMAGE_NAME }} \
             -d \
             --privileged \
             --net host \
-            -e HOST_USER_ID=1000 \
-            -e HOST_GROUP_ID=1000 \
-            ${{ env.IMAGE_NAME }}:latest \
+            --mount type=bind,src=${GITHUB_WORKSPACE}/catkin_ws/logs,dst=/home/developer/catkin_ws/logs \
+            --device /dev/snd \
+            -v /dev/shm \
+            -e DISPLAY=${{ env.DISPLAY }} \
+            -e HOST_USER_ID=$(id -u) \
+            -e HOST_GROUP_ID=$(id -g) \
+            ${{ env.IMAGE_NAME }} \
             tail -f /dev/null
           docker ps -a
           docker logs ${{ env.IMAGE_NAME }}
       
+      # ロボコンプロジェクトのビルド
+      - name: Build Robot Programs
+        run: |
+          docker exec -u developer -t ${{ env.IMAGE_NAME }} bash -l -c "catkin build"
+
       # burger-war-kitのテスト
       - name: Test Docker Image
         id: image-test
-        run: docker exec -t ${{ env.IMAGE_NAME }} echo "This is test echo."
+        run: |
+          docker exec -u developer -t ${{ env.IMAGE_NAME }} bash -l -c "cd src/burger_war_kit && bash scripts/sim_run_test.sh"
+
+      # テスト結果をArtifactにアップロードする
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: ${{ env.TEST_LOG_ARCHIVE }}
+          path: ${{ github.WORKSPACE }}/catkin_ws/logs/test_logs.tgz
+          retention-days: 5
 
       # ghcr.ioにログイン
       - name: Login to ghrc.io
