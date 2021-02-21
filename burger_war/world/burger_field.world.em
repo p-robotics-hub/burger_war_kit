@@ -13,7 +13,7 @@
 
 <gui>
   <camera name="camera">
-    <pose>1.5 -5. 6. 0.0 .85 1.8</pose>
+    <pose>0.0 0.0 3.0 -1.57 1.57 0.0</pose><!--<pose>1.5 -5. 6. 0.0 .85 1.8</pose>-->
     <view_controller>orbit</view_controller>
   </camera>
 </gui>
