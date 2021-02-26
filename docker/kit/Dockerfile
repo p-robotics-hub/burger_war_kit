@@ -33,6 +33,7 @@ RUN apt-get update -q && apt-get install -y --no-install-recommends \
         python-pil.imagetk \
         python-catkin-tools \
         jq \
+        scrot \
     && rm -rf /var/lib/apt/lists/*
 
 RUN apt-get update -q && apt-get install -y --no-install-recommends \
@@ -84,13 +85,16 @@ RUN test -f /etc/ros/rosdep/sources.list.d/20-default.list \
     && rm /etc/ros/rosdep/sources.list.d/20-default.list
 RUN rosdep init \
     && gosu ${USERNAME} rosdep update \
+    && mkdir -p /home/${USERNAME}/.config/catkin/verb_aliases \
     && mkdir -p /home/${USERNAME}/.ros/log \
-    && mkdir -p /home/${USERNAME}/.gazebo/log
+    && mkdir -p /home/${USERNAME}/.gazebo/log \
+    && chmod -R 777 /home/${USERNAME}/.config
 
 # ワークスペース作成
 #------------------------------------------------
 ARG ROBOCON_WS=/home/${USERNAME}/catkin_ws
 RUN mkdir -p ${ROBOCON_WS}/src/burger_war_kit \
+    && chmod 777 /home/${USERNAME}/catkin_ws \
     && mkdir -p ${ROBOCON_WS}/logs
 COPY ./burger_war ${ROBOCON_WS}/src/burger_war_kit/burger_war
 COPY ./judge ${ROBOCON_WS}/src/burger_war_kit/judge
