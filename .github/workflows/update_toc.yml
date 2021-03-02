@@ -4,9 +4,6 @@ name: Update Markown TOC
 # トリガーイベントの指定
 on:
   push:
-    branches:
-      - master
-      - with_docker
     paths: 
       - '**.md'
 
