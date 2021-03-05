@@ -7,14 +7,14 @@ on:
     paths: 
       - '**.md'
 
-  # GitHub Actionsの手動実行の許可
+  # ブラウザ上からの手動実行設定
   workflow_dispatch:
 
 # 実行する処理
 jobs:
   UpdateTOC:
     name: UpdateToc
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     steps:
       - name: TOC Generator
         uses: technote-space/toc-generator@v3
@@ -24,3 +24,5 @@ jobs:
           # 目次を作成する最大階層レベル
           MAX_HEADER_LEVEL: 3
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # 目次の見出し
+          TOC_TITLE: '**目次**'

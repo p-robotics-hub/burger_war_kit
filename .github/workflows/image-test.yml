@@ -1,6 +1,6 @@
-name: Kit Docker Image Build & Test
+name: Kit Image Build & Test
 
-# 実行するイベントの指定
+# トリガーイベントの指定
 on:
   # 指定ブランチで指定ファイルがPUSHされたときに実行する
   push:
@@ -13,12 +13,6 @@ on:
 
   # ブラウザ上からの手動実行設定
   workflow_dispatch:
-    # inputs:
-    #   any_param1:
-    #     required: true
-    #     description: パラメータ説明
-    #     default: value
-    #   any_param2:
 
 # 環境変数の設定
 env:
@@ -28,28 +22,35 @@ env:
   DOCKER_FILE: ./docker/kit/Dockerfile
   TEST_VERSION: test.${{ github.run_number }}
   TEST_LOG_ARCHIVE: test_logs-${{ github.run_number }}
-  DISPLAY: :99
+  DISPLAY: ':99'
 
+# 実行する処理
 jobs:
   # ビルドとテストを実施し、テストにPASSすれば、仮バージョンでプッシュ
   build-test:
 
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
 
     steps:
       # 環境準備
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      # # burger-war-kitイメージのビルド
+      # Dockerのversion確認
+      - name: Print Docker Version
+        run: |
+          docker version
+
+      # burger-war-kitイメージのビルド
       - name: Build Docker Image
-        run: docker build --file ${{ env.DOCKER_FILE }} --tag ${{ env.IMAGE_NAME }} .
+        run: |
+          docker build --file ${{ env.DOCKER_FILE }} --tag ${{ env.IMAGE_NAME }} .
 
       # xvfbのインストールと起動
       - name: Xvfb install and run
         run: |
           sudo apt-get install -y xvfb
-          Xvfb -ac ${{ env.DISPLAY }} -screen 0 1280x1024x24 >/dev/null 2>&1 &
+          Xvfb -ac ${{ env.DISPLAY }} -screen 0 1280x780x24 &
 
       # burger-war-kitコンテナ起動
       - name: Launch Docker Container
@@ -103,3 +104,4 @@ jobs:
         run: |
           docker tag ${{ env.IMAGE_NAME }} ${{ env.RESISTRY_URL }}/${{ env.IMAGE_NAME }}:${{ env.TEST_VERSION }}
           docker push ${{ env.RESISTRY_URL }}/${{ env.IMAGE_NAME }}:${{ env.TEST_VERSION }}
+
