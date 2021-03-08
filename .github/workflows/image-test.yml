@@ -71,7 +71,21 @@ jobs:
             tail -f /dev/null
           docker ps -a
           docker logs ${{ env.IMAGE_NAME }}
-      
+
+      # 権限確認
+      - name: directory permission
+        run: |
+          echo "~/ ============================================================"
+          docker exec -u developer -t ${{ env.IMAGE_NAME }} bash -l -c "ls -la ~/"
+          echo "~/.ros ========================================================"
+          docker exec -u developer -t ${{ env.IMAGE_NAME }} bash -l -c "ls -la ~/.ros"
+          echo "~/.gazebo ====================================================="
+          docker exec -u developer -t ${{ env.IMAGE_NAME }} bash -l -c "ls -la ~/.gazebo"
+          echo "~/catkin_ws ==================================================="
+          docker exec -u developer -t ${{ env.IMAGE_NAME }} bash -l -c "ls -la ~/catkin_ws"
+          echo "~/catkin_ws/logs =============================================="
+          docker exec -u developer -t ${{ env.IMAGE_NAME }} bash -l -c "ls -la ~/catkin_ws/logs"
+
       # ロボコンプロジェクトのビルド
       - name: Build Robot Programs
         run: |
