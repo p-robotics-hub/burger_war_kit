@@ -93,7 +93,6 @@ RUN rosdep init \
 #------------------------------------------------
 ARG ROBOCON_WS=/home/${USERNAME}/catkin_ws
 RUN mkdir -p ${ROBOCON_WS}/src/burger_war_kit \
-    && chmod 777 /home/${USERNAME}/catkin_ws \
     && mkdir -p ${ROBOCON_WS}/logs
 COPY ./burger_war ${ROBOCON_WS}/src/burger_war_kit/burger_war
 COPY ./judge ${ROBOCON_WS}/src/burger_war_kit/judge
