@@ -1,12 +1,14 @@
 #!/bin/bash
 ###############################################################################
-#-burger-warのシミュレーションを実施する
+#-burger-warのシミュレーションによるテストを実施する
 #-
 #+[USAGE]
 #+  $0 [-j JudgeServerのURL] [-h] [シミュレータ起動待ちタイムアウト時間]
 #+
 #-[OPTIONS]
 #-  -j URL        JudgeServerのURL(Default: http://localhost:5000/warState)
+#-  -s            シミュレーション環境のテストを行う
+#-  -l level      相手ロボットのレベル(1〜3)を指定(Default: 1)
 #-  -h            このヘルプを表示
 #-
 ###############################################################################
@@ -28,7 +30,7 @@ LOG_ROOT_DIR=${HOME}/catkin_ws/logs
 TEST_LOG_DIR=${LOG_ROOT_DIR}/test
 SCREENSHOT_DIR=${TEST_LOG_DIR}/screenshot
 SIM_JUDGE_LOG="${TEST_LOG_DIR}/sim_with_test.log"
-SIM_START_LOG="${TEST_LOG_DIR}/start_test.log"
+SIM_START_LOG="${TEST_LOG_DIR}/start_script.log"
 JUDGE_SERVER_RESULT_LOG="${TEST_LOG_DIR}/judge_server_result.log"
 
 # テスト結果初期化
@@ -88,13 +90,22 @@ killpstree(){
 
 # オプション・引数解析
 #------------------------------------------------
-BUILD_OPTION=
 IMAGE_VERSION=latest
-while getopts j:h OPT
+ENEMY_LEVEL=1
+SIM_TEST_MODE=
+START_SCRIPT=start.sh
+while getopts j:l:sh OPT
 do
   case $OPT in
     j  ) # JudgeServerのURLを指定
       JUDGE_SERVER_ADDR=$OPTARG
+      ;;
+    l  ) # 相手ロボットのレベルを指定
+      ENEMY_LEVEL=$OPTARG
+      ;;
+    s  ) # シミュレーション環境のテストモード
+      SIM_TEST_MODE=1
+      START_SCRIPT=start_test.sh
       ;;
     h  ) # ヘルプの表示
       help_exit
@@ -143,7 +154,7 @@ done
 sleep 5
 
 # シミュレーション開始
-(bash ${SCRIPT_DIR}/start_test.sh  > "${SIM_START_LOG}" 2>&1) &
+(bash ${SCRIPT_DIR}/${START_SCRIPT} -l ${ENEMY_LEVEL} > "${SIM_START_LOG}" 2>&1) &
 SIM_START_PID=$!
 
 sleep 1
@@ -184,8 +195,10 @@ RED_POINT=$( cat ${JUDGE_SERVER_RESULT_LOG} | jq .scores.r )
 
 # テスト結果確認
 TEST_RESULT=0
-if ! echo "${BLUE_POINT}" | grep -q -E "^[123456789]"; then
-  TEST_RESULT=1
+if [ -n "${SIM_TEST_MODE}" ]; then
+  if ! echo "${BLUE_POINT}" | grep -q -E "^[123456789]"; then
+    TEST_RESULT=1
+  fi
 fi
 if ! echo "${RED_POINT}" | grep -q -E "^[123456789]"; then
   TEST_RESULT=1
@@ -197,7 +210,7 @@ killpstree ${SIM_JUDGE_PID}
 
 # 本プロセスが早く落ちすぎて子プロセスがゾンビ化するため一定時間待機する
 echo "Wait simulator shutdown ..."
-sleep 30
+sleep 20
 
 # ログを集める
 cp -r "${HOME}/.ros/log" "${TEST_LOG_DIR}/ros"

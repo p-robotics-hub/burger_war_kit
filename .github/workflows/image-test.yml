@@ -81,7 +81,7 @@ jobs:
       - name: Test Docker Image
         id: image-test
         run: |
-          docker exec -u developer -t ${{ env.IMAGE_NAME }} bash -l -c "cd src/burger_war_kit && bash scripts/sim_run_test.sh"
+          docker exec -u developer -t ${{ env.IMAGE_NAME }} bash -l -c "cd src/burger_war_kit && bash scripts/sim_run_test.sh -s"
 
       # テスト結果をArtifactにアップロードする
       - name: Upload Artifact

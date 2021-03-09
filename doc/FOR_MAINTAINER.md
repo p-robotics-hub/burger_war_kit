@@ -286,7 +286,7 @@ GitHub Actionsの自動テストで行っている主な処理は以下になり
 |judge/*|burger_war_kit/judge/logsディレクトリ配下のファイル
 |screenshot/*|試験実行時の画面キャプチャ画像
 |sim_with_test.log|burger_war_kit/scripts/sim_with_test.shの出力ログ
-|start_test.log|burger_war_kit/scripts/start_test.shの出力ログ
+|start_script.log|burger_war_kit/scripts/start.sh or start_test.shの出力ログ
 |judge_server_result.log|試験終了時に審判サーバから取得した情報(/warState)
 
 
@@ -549,7 +549,8 @@ FROM ghcr.io/p-robotics-hub/burger-war-kit@sha256:9c337a0021be4b8a24cd8b9b3c2d97
 bash commands/docker-push.sh -l
 ```
 
-以下のように
+以下のようにローカル環境に、ghcr.io/p-robotics-hub/burger-war-kitリポジトリのバージョンのイメージが作成されます。
+
 ```
 REPOSITORY                                      TAG                    IMAGE ID       CREATED              SIZE
 burger-war-kit                                  202101302145           a8b2cdb5fbdd   About a minute ago   3.45GB
