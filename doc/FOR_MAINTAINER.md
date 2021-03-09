@@ -345,10 +345,10 @@ docker pull ghcr.io/p-robotics-hub/burger-war-kit:test.XXX
 
 ### 6.2 burger-war-kitイメージの動作確認
 -------------------------------------------------------------------------------
-コンテナ起動時に`-r`(ghcr.ioからプル)を指定し、`-v`で動作を確認したいテストバージョンを指定して下さい。
+コンテナ起動時に`-R`(ghcr.ioからプル)を指定し、`-v`で動作を確認したいテストバージョンを指定して下さい。
 
 ```
-bash commands/docker-launch.sh -r -v test.4
+bash commands/docker-launch.sh -R -v test.4
 ```
 
 あとは、通常の操作(kit.shなど)で動作確認が行って下さい。
