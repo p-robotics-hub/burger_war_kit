@@ -62,14 +62,14 @@ save_contianer() {
     echo "バージョン名が不正です。起動処理を中断します"
     exit 1
   fi
-  docker commit ${container_name} ${RUN_DOCKER_IMAGE_NAME}:${backup_version} >/dev/null
+  docker commit ${container_name} ${KIT_DOCKER_IMAGE_NAME}:${backup_version} >/dev/null
   cat <<-EOM_SAVE
 	#--------------------------------------------------------------------
 	# 既存のコンテナを以下のイメージとして保存しました
-	# SAVE IMAGE NAME: ${RUN_DOCKER_IMAGE_NAME}:${backup_version}
+	# SAVE IMAGE NAME: ${KIT_DOCKER_IMAGE_NAME}:${backup_version}
 	#
 	# 保存したイメージからコンテナを起動するには、以下のコマンドを実行して下さい
-	# RUN COMMAND    : bash commands/docker-launch.sh -t ${RUN_TARGET} -v ${backup_version}
+	# RUN COMMAND    : bash commands/docker-launch.sh -v ${backup_version}
 	#--------------------------------------------------------------------
 EOM_SAVE
   docker rm ${container_name} >/dev/null
@@ -114,11 +114,10 @@ source "${SCRIPT_DIR}/config.sh"
 #------------------------------------------------
 RUN_OPTION=
 IMAGE_VERSION=latest
-RUN_TARGET=kit
-RUN_DOCKER_IMAGE_NAME=${KIT_DOCKER_IMAGE_NAME}
 RUN_DOCKER_CONTAINER_NAME=${KIT_DOCKER_CONTAINER_NAME}
 RESTART_CONTAINER_REQUEST=
 FORCE_NEW_CONTAINER_REQUEST=
+USE_REMOTE_IMAGE=
 while getopts a:frRv:w:h OPT
 do
   case $OPT in
@@ -132,7 +131,7 @@ do
       RESTART_CONTAINER_REQUEST=1
       ;;
     R  ) # ghcr.io上の Dockerイメージを使用する
-      KIT_DOCKER_IMAGE_NAME="${REGISTRY_URL}/${KIT_DOCKER_IMAGE_NAME}"
+      USE_REMOTE_IMAGE=1
       ;;
     v  ) # Dockerイメージのバージョン指定
       IMAGE_VERSION="${OPTARG}"
@@ -150,7 +149,14 @@ do
 done
 shift $((OPTIND - 1))
 
-RUN_DOCKER_IMAGE_NAME_FULL=${RUN_DOCKER_IMAGE_NAME}:${IMAGE_VERSION}
+# ghcr.io上の Dockerイメージを使用する場合
+if [ -n "${USE_REMOTE_IMAGE}" ]; then
+  KIT_DOCKER_IMAGE_NAME="${REGISTRY_URL}/${KIT_DOCKER_IMAGE_NAME}"
+  docker pull ${KIT_DOCKER_IMAGE_NAME}:${IMAGE_VERSION}
+fi
+
+# Dockerイメージ名を設定
+RUN_DOCKER_IMAGE_NAME_FULL=${KIT_DOCKER_IMAGE_NAME}:${IMAGE_VERSION}
 
 # 指定のコンテナが存在するかチェック
 #------------------------------------------------
@@ -199,7 +205,7 @@ if docker ps -a --format '{{.Names}}' | grep -q -e "^${RUN_DOCKER_CONTAINER_NAME
     # ユーザーによる起動方法の選択
     echo -e "\e[33m前回起動していた ${RUN_DOCKER_CONTAINER_NAME} コンテナが存在します"
     echo -e "コンテナを起動する方法を以下から選択できます"
-    echo -e "---------------------------------------------------------"
+    echo -e "----------------------------------------------------------"
     echo -e "  1: 既存のコンテナを再起動する"
     echo -e "  2: 既存のコンテナを保存して新しいコンテナを起動する"
     echo -e "  3: 既存のコンテナを削除して新しいコンテナを起動する"
