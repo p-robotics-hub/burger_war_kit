@@ -21,9 +21,6 @@ HOST_HTTPS_PROXY=${HTTPS_PROXY:-}
 HOST_ftp_proxy=${ftp_proxy:-}
 HOST_FTP_PROXY=${FTP_PROXY:-}
 
-#----------------------------------------------------------
-# Local config values
-#----------------------------------------------------------
 # 開発者ユーザー名(変更する場合はburger_war_devも見直すこと)
 DEVELOPER_NAME=developer
 
