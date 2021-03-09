@@ -13,17 +13,6 @@ KIT_DOCKER_CONTAINER_NAME=${KIT_DOCKER_IMAGE_NAME}
 #----------------------------------------------------------
 # Local config values
 #----------------------------------------------------------
-# PROXY設定
-HOST_http_proxy=${http_proxy:-}
-HOST_https_proxy=${https_proxy:-}
-HOST_HTTP_PROXY=${HTTP_PROXY:-}
-HOST_HTTPS_PROXY=${HTTPS_PROXY:-}
-HOST_ftp_proxy=${ftp_proxy:-}
-HOST_FTP_PROXY=${FTP_PROXY:-}
-
-#----------------------------------------------------------
-# Local config values
-#----------------------------------------------------------
 # 開発者ユーザー名(変更する場合はburger_war_devも見直すこと)
 DEVELOPER_NAME=developer
 

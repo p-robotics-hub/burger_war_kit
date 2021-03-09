@@ -39,15 +39,6 @@ help_exit() {
 SCRIPT_DIR=$(cd "$(dirname $0)"; pwd)
 source "${SCRIPT_DIR}/config.sh"
 
-# Proxy設定
-PROXY_OPTION=
-[ -n "${HOST_HTTP_PROXY}"  ] && PROXY_OPTION="${PROXY_OPTION} -e HTTP_PROXY=${HOST_HTTP_PROXY}"
-[ -n "${HOST_HTTPS_PROXY}" ] && PROXY_OPTION="${PROXY_OPTION} -e HTTPS_PROXY=${HOST_HTTPS_PROXY}"
-[ -n "${HOST_FTP_PROXY}"   ] && PROXY_OPTION="${PROXY_OPTION} -e FTP_PROXY=${HOST_FTP_PROXY}"
-[ -n "${HOST_http_proxy}"  ] && PROXY_OPTION="${PROXY_OPTION} -e http_proxy=${HOST_http_proxy}"
-[ -n "${HOST_https_proxy}" ] && PROXY_OPTION="${PROXY_OPTION} -e https_proxy=${HOST_https_proxy}"
-[ -n "${HOST_ftp_proxy}"   ] && PROXY_OPTION="${PROXY_OPTION} -e ftp_proxy=${HOST_ftp_proxy}"
-
 # オプション・引数解析
 #------------------------------------------------
 RUN_OPTION=
@@ -107,7 +98,6 @@ docker run \
   -e DISPLAY=${DISPLAY} \
   -e HOST_USER_ID=$(id -u) \
   -e HOST_GROUP_ID=$(id -g) \
-  ${PROXY_OPTION} \
   ${RUN_OPTION} \
   ${KIT_DOCKER_IMAGE_NAME}:${IMAGE_VERSION} \
   tail -f /dev/null
