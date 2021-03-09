@@ -36,6 +36,7 @@ burger_war_kitリポジトリでは、[burger_war_dev](https://github.com/p-robo
   - [A. Personal access token の作成](#a-personal-access-token-%E3%81%AE%E4%BD%9C%E6%88%90)
   - [B. 手動でghcr.ioにプッシュしたい場合](#b-%E6%89%8B%E5%8B%95%E3%81%A7ghcrio%E3%81%AB%E3%83%97%E3%83%83%E3%82%B7%E3%83%A5%E3%81%97%E3%81%9F%E3%81%84%E5%A0%B4%E5%90%88)
   - [C. スクリプト用共通設定ファイル](#c-%E3%82%B9%E3%82%AF%E3%83%AA%E3%83%97%E3%83%88%E7%94%A8%E5%85%B1%E9%80%9A%E8%A8%AD%E5%AE%9A%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB)
+  - [D. PROXYの設定について](#d-proxy%E3%81%AE%E8%A8%AD%E5%AE%9A%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
