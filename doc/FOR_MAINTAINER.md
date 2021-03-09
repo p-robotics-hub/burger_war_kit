@@ -579,7 +579,15 @@ KIT_DOCKER_CONTAINER_NAME=${KIT_DOCKER_IMAGE_NAME}
 #----------------------------------------------------------
 # Local config values
 #----------------------------------------------------------
-# 開発者ユーザー名 (変更する場合はburger_war_devも見直すこと)
+# PROXY設定
+HOST_http_proxy=${http_proxy:-}
+HOST_https_proxy=${https_proxy:-}
+HOST_HTTP_PROXY=${HTTP_PROXY:-}
+HOST_HTTPS_PROXY=${HTTPS_PROXY:-}
+HOST_ftp_proxy=${ftp_proxy:-}
+HOST_FTP_PROXY=${FTP_PROXY:-}
+
+# 開発者ユーザー名(変更する場合はburger_war_devも見直すこと)
 DEVELOPER_NAME=developer
 
 # GitHubのPersonal access tokensを保存したファイルのパス
@@ -607,3 +615,36 @@ KIT_DOCKER_FILE_PATH=${DOCKER_ROOT_DIR}/kit/Dockerfile
 - DEVELOPER_NAME
 
 <br />
+
+
+### D. PROXYの設定について
+--------------------------------------------------------------------
+PROXY環境下では、ホストPCで必要な環境変数の設定を行って下さい。
+
+ホストPCで以下の環境変数が定義されていた場合、docker build(`--build-arg`)とdocker run(`-e`)コマンドに渡すようになっています。
+
+- http_proxy
+- https_proxy
+- ftp_proxy
+- HTTP_PROXY
+- HTTPS_PROXY
+- FTP_PROXY
+
+<br />
+
+また、PROXY対象外のアドレスは下記設定になっています。
+
+```bash
+export no_proxy=127.0.0.1,localhost,${HOSTNAME}
+export NO_PROXY=${no_proxy}
+```
+
+上記の2変数は、`docker/templates/export_env`で設定されています。  
+最終的にDockerコンテナ内の以下2つのファイルに追記されます。
+
+- `/home/developer/.bashrc`
+- `/home/developer/.bash_profile`
+
+
+また、PROXY関連の変数はsudoコマンド実行時にも反映されるように、`docker/kit/Dockerfile`で`/etc/sudoers`に追記するようになっています。
+
