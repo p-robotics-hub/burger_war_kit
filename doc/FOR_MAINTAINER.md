@@ -265,7 +265,6 @@ GitHub Actionsの自動テストで行っている主な処理は以下になり
 5. burger-war-kitのテスト (`scripts/sim_run_test.sh`)
 6. テスト実行ログの保存 (`GitHub Artifact`)
 7. burger-war-kitrイメージをテスト版としてプッシュ (`docker push`)
-8. テストにパスしたバージョンをファイルに保存 (`TEST_VERSION`)
 
 実際の処理は`.github/workflows/image-test.yml`を参照して下さい。
 
@@ -431,10 +430,9 @@ mainブランチでの自動テスト時に作成されるburger-war-kitイメ�
 
 上記ページの右側にある「Workflows」から「Release Kit Image」を選択して、「Run workflow」をクリックすると、以下のように必要な情報の入力フォームが表示されます。
 
-![リリース用workflow](https://user-images.githubusercontent.com/76457573/109125137-0d2cca80-778f-11eb-9716-0d4e50eca375.png)
+![リリース用workflow](https://user-images.githubusercontent.com/76457573/110589598-01db9500-81ba-11eb-8957-012c15658e04.png)
 
-
-以下の必要な項目を入力して、「Run workflow」をクリックして下さい。
+以下の必要な項目を入力して、「Run workflow」をクリックして下さい。  
 workflowの実行は2分ほどで完了します。
 
 |設定項目|説明
