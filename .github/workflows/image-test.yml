@@ -91,7 +91,7 @@ jobs:
         with:
           name: ${{ env.TEST_LOG_ARCHIVE }}
           path: ${{ github.WORKSPACE }}/catkin_ws/logs/test_logs.tgz
-          retention-days: 5
+          retention-days: 90
 
       # ghcr.ioにログイン
       - name: Login to ghrc.io
