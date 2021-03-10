@@ -337,10 +337,10 @@ GitHub Actionsでは、`catkin_ws`ディレクトリはマウントせずに、b
 docker pull ghcr.io/p-robotics-hub/burger-war-kit:test.XXX
 ```
 
-例えば、以下のGitHub Actionsでテストを実施したburger-war-kitイメージは`test.4`となります。  
-(ページ見出しの`Kit Docker Image Build & Test #4`の`#`以降の番号)
+例えば、以下のGitHub Actionsでテストを実施したburger-war-kitイメージは`test.17`となります。  
+(ページ見出しの`Kit Docker Image Build & Test #17`の`#`以降の番号)
 
-[自動テストのサンプルページ](https://github.com/p-robotics-hub/burger_war_kit/actions/runs/577614010)
+[自動テストのサンプルページ](https://github.com/p-robotics-hub/burger_war_kit/actions/runs/638381012)
 
 実際にプッシュされているburger-war-kitイメージのバージョンは、以下のページで確認できます。
 
