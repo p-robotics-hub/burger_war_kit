@@ -79,6 +79,12 @@ burger_war_kit
 |   |   |-- .ignition/fuel
 |   |   |   |-- config.yaml       ... Gazebo起動時に出るエラーを抑制するための設定ファイル
 |   |   |-- export_env            ... コンテナ内のユーザーに必要な設定(`.bash_profile`と`.bashrc`に追記する内容)
+|-- scripts                       ... コンテナ内で実行するスクリプト群(開発環境をホストPCに構築した場合は、ホストPCでも使用可能)
+|   |-- sim_run_test.sh           ... 自動テスト実行スクリプト(内部で`sim_with_test.sh`,`start_test.sh`,`start.sh`を実行)
+|   |-- sim_with_judge.sh         ... シミュレータ起動スクリプト。ROSのログファイル出力なし
+|   |-- sim_with_test.sh          ... 自動テスト用シミュレータ起動スクリプト。ROSのログファイル出力あり
+|   |-- start.sh                  ... シミュレーション開始スクリプト。burger_war_devのロボットプログラムを起動
+|   |-- start_test.sh             ... 自動テスト用シミュレーション開始スクリプト。burger_war_kitのロボットプログラムを起動
 ```
 
 <br />
@@ -118,7 +124,7 @@ mainへのマージ後、不要になった開発用ブランチは削除して�
 8. mainブランチにマージ
    - リポジトリ管理者がmainブランチへマージ
    - マージ時に、5と同様の自動ビルドとテストが実行される
-9.  burger-war-kitイメージをリリース(burger-war-kitイメージ(テスト版)にlatestタグを付与)
+9. burger-war-kitイメージをリリース(burger-war-kitイメージ(テスト版)にlatestタグを付与)
 
 <br />
 
@@ -217,7 +223,7 @@ bash commands/kit.sh
 scriptsディレクトリ配下のスクリプトを実行したい場合は、`-s`オプションで実行するスクリプトを指定して下さい。
 
 ```bash
-bash commands/kit.sh -s sim_width_judge.sh
+bash commands/kit.sh -s sim_with_judge.sh
 ```
 
 コマンド実行時の作業ディレクトリは、`/home/developer/catkin_ws/burger_war_kit`になります。
