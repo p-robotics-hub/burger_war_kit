@@ -81,7 +81,9 @@ jobs:
       - name: Test Docker Image
         id: image-test
         run: |
-          docker exec -u developer -t ${{ env.IMAGE_NAME }} bash -l -c "cd src/burger_war_kit && bash scripts/sim_run_test.sh -s"
+          docker exec -u developer -t ${{ env.IMAGE_NAME }} bash -l -c "cd src/burger_war_kit && bash scripts/sim_run_test.sh -s" \
+            && echo "::set-output name=test_result::0" \
+            || echo "::set-output name=test_result::1"
 
       # テスト結果をArtifactにアップロードする
       - name: Upload Artifact
@@ -93,6 +95,7 @@ jobs:
 
       # ghcr.ioにログイン
       - name: Login to ghrc.io
+        if: steps.image-test.outputs.test_result == 0
         uses: docker/login-action@v1
         with:
           registry: ghcr.io
@@ -101,7 +104,15 @@ jobs:
 
       # burger-war-kitrイメージをテストバージョンとしてプッシュ
       - name: Push Docker Image
+        if: steps.image-test.outputs.test_result == 0
         run: |
           docker tag ${{ env.IMAGE_NAME }} ${{ env.RESISTRY_URL }}/${{ env.IMAGE_NAME }}:${{ env.TEST_VERSION }}
           docker push ${{ env.RESISTRY_URL }}/${{ env.IMAGE_NAME }}:${{ env.TEST_VERSION }}
 
+      # テストがNGだった場合
+      - name: If Test Failed
+        if: steps.image-test.outputs.test_result != 0
+        run: |
+          echo "::error::Test is failed!!"
+          echo "::error::See step 'Test Docker Image'"
+          exit 1
