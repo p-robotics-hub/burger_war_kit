@@ -36,6 +36,7 @@ burger_war_kitリポジトリでは、[burger_war_dev](https://github.com/p-robo
   - [A. Personal access token の作成](#a-personal-access-token-%E3%81%AE%E4%BD%9C%E6%88%90)
   - [B. 手動でghcr.ioにプッシュしたい場合](#b-%E6%89%8B%E5%8B%95%E3%81%A7ghcrio%E3%81%AB%E3%83%97%E3%83%83%E3%82%B7%E3%83%A5%E3%81%97%E3%81%9F%E3%81%84%E5%A0%B4%E5%90%88)
   - [C. スクリプト用共通設定ファイル](#c-%E3%82%B9%E3%82%AF%E3%83%AA%E3%83%97%E3%83%88%E7%94%A8%E5%85%B1%E9%80%9A%E8%A8%AD%E5%AE%9A%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB)
+  - [D. PROXYの設定について](#d-proxy%E3%81%AE%E8%A8%AD%E5%AE%9A%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -584,7 +585,15 @@ KIT_DOCKER_CONTAINER_NAME=${KIT_DOCKER_IMAGE_NAME}
 #----------------------------------------------------------
 # Local config values
 #----------------------------------------------------------
-# 開発者ユーザー名 (変更する場合はburger_war_devも見直すこと)
+# PROXY設定
+HOST_http_proxy=${http_proxy:-}
+HOST_https_proxy=${https_proxy:-}
+HOST_HTTP_PROXY=${HTTP_PROXY:-}
+HOST_HTTPS_PROXY=${HTTPS_PROXY:-}
+HOST_ftp_proxy=${ftp_proxy:-}
+HOST_FTP_PROXY=${FTP_PROXY:-}
+
+# 開発者ユーザー名(変更する場合はburger_war_devも見直すこと)
 DEVELOPER_NAME=developer
 
 # GitHubのPersonal access tokensを保存したファイルのパス
@@ -612,3 +621,36 @@ KIT_DOCKER_FILE_PATH=${DOCKER_ROOT_DIR}/kit/Dockerfile
 - DEVELOPER_NAME
 
 <br />
+
+
+### D. PROXYの設定について
+--------------------------------------------------------------------
+PROXY環境下では、ホストPCで必要な環境変数の設定を行って下さい。
+
+ホストPCで以下の環境変数が定義されていた場合、docker build(`--build-arg`)とdocker run(`-e`)コマンドに渡すようになっています。
+
+- http_proxy
+- https_proxy
+- ftp_proxy
+- HTTP_PROXY
+- HTTPS_PROXY
+- FTP_PROXY
+
+<br />
+
+また、PROXY対象外のアドレスは下記設定になっています。
+
+```bash
+export no_proxy=127.0.0.1,localhost,${HOSTNAME}
+export NO_PROXY=${no_proxy}
+```
+
+上記の2変数は、`docker/templates/export_env`で設定されています。  
+最終的にDockerコンテナ内の以下2つのファイルに追記されます。
+
+- `/home/developer/.bashrc`
+- `/home/developer/.bash_profile`
+
+
+また、PROXY関連の変数はsudoコマンド実行時にも反映されるように、`docker/kit/Dockerfile`で`/etc/sudoers`に追記するようになっています。
+
