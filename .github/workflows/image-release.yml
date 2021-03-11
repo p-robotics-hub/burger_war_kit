@@ -1,0 +1,105 @@
+# テストにパスしたDockerImageに、正式なバージョンを付与する
+
+name: Release Kit Image
+
+# トリガーイベントの指定
+on:
+  # ブラウザ上からの手動実行設定
+  workflow_dispatch:
+    inputs:
+      # テスト実施バージョンの指定
+      test_version:
+        description: 'テスト実施バージョン (Format: test.N  ※Nは整数)'
+        default: test.N
+        required: true
+      # リリースバージョンの指定
+      release_version:
+        description: '付与するリリースバージョン (Format: 4.N.n  ※N,nは整数)'
+        default: 4.N.n
+        required: true
+      # latestバージョンを付与するかの指定(yesで付与)
+      append_latest_enable:
+        description: 'latestバージョンの付与 (yes/no)'
+        default: 'yes'
+        required: true
+      # バージョン形式のチェック有無
+      check_format_enable:
+        description: '入力値のFormatチェックの実施 (yes/no)'
+        default: 'yes'
+        required: true
+
+# 環境変数の設定
+env:
+  RESISTRY_URL: ghcr.io/${{ github.repository_owner }}
+  IMAGE_NAME: burger-war-kit
+
+# 実行する処理
+jobs:
+  image-release:
+    runs-on: ubuntu-20.04
+
+    steps:
+    # 入力値からバージョン情報取得
+    - name: Set Version When Not Manual
+      if: github.event_name == 'workflow_dispatch'
+      run: |
+        echo "TEST_VERSION=${{ github.event.inputs.test_version }}" >> ${GITHUB_ENV}
+        echo "RELEASE_VERSION=${{ github.event.inputs.release_version }}" >> ${GITHUB_ENV}
+
+    # バージョン情報出力
+    - name: Print Version
+      run: |
+        echo "TEST_VERSION: ${TEST_VERSION}"
+        echo "RELEASE_VERSION: ${RELEASE_VERSION}"
+        echo "Append latest: ${{ github.event.inputs.append_latest_enable }}"
+        echo "Check format: ${{ github.event.inputs.check_format_enable }}"
+  
+    # テストバージョンのフォーマットチェック
+    - name: Check Input Test Version
+      if: github.event.inputs.check_format_enable == 'yes'
+      run: |
+        if echo "${TEST_VERSION}" | grep -E "^test\.[1-9][0-9]*$"; then
+          echo "Valid test version"
+        else
+          echo "Invalid test version"
+          exit 1
+        fi
+
+    # Releaseバージョンのフォーマットチェック
+    - name: Check Input Release Version
+      if: github.event.inputs.check_format_enable == 'yes'
+      run: |
+        if echo "${RELEASE_VERSION}" | grep -E "^4\.[0-9]+\.[0-9]+$"; then
+          echo "Valid release version"
+        else
+          echo "Invalid release version"
+          exit 1
+        fi
+
+    # ghcr.ioにログイン
+    - name: Login to ghcr.io
+      uses: docker/login-action@v1
+      with:
+        registry: ghcr.io
+        username: ${{ secrets.GHCR_USERNAME }}
+        password: ${{ secrets.GHCR_PASSWORD }}
+
+    # テストバージョンの取得
+    - name: Pull Test Version Image
+      run: |
+        docker pull ${{ env.RESISTRY_URL }}/${{ env.IMAGE_NAME }}:${TEST_VERSION}
+
+    # テストバージョンのイメージに正式バージョンを付与
+    - name: Push Official Image Version
+      run: |
+        docker tag ${{ env.RESISTRY_URL }}/${{ env.IMAGE_NAME }}:${TEST_VERSION} \
+                   ${{ env.RESISTRY_URL }}/${{ env.IMAGE_NAME }}:${RELEASE_VERSION}
+        docker push ${{ env.RESISTRY_URL }}/${{ env.IMAGE_NAME }}:${RELEASE_VERSION}
+
+    # テストバージョンのイメージにlatestバージョンを付与
+    - name: Push Official Image Version
+      if: github.event.inputs.append_latest_enable == 'yes'
+      run: |
+        docker tag ${{ env.RESISTRY_URL }}/${{ env.IMAGE_NAME }}:${TEST_VERSION} \
+                   ${{ env.RESISTRY_URL }}/${{ env.IMAGE_NAME }}:latest
+        docker push ${{ env.RESISTRY_URL }}/${{ env.IMAGE_NAME }}:latest

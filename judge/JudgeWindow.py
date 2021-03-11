@@ -6,12 +6,13 @@
 import Tkinter as tk
 from PIL import Image,ImageTk
 import os
+import sys
 import time
 import copy
 import JudgeReceiver
 
 class JudgeWindow:
-    def __init__(self,window_name="burger war",window_size=(520,400)):
+    def __init__(self,window_name="burger war",window_size=(520,400),on_top=False):
         self.script_dir = os.path.dirname(os.path.abspath(__file__))
 
         #ジャッジサーバー通信クラス
@@ -21,6 +22,7 @@ class JudgeWindow:
         self.root = tk.Tk()
         self.root.title(window_name)
         self.root.minsize(window_size[0], window_size[1])
+        self.root.attributes("-topmost", on_top)
         self.window_size=window_size
 
         self.canvas = tk.Canvas(bg="black", width=window_size[0], height=window_size[1]) 
@@ -30,7 +32,6 @@ class JudgeWindow:
 
         self.read_images()
         self.draw()
-
 
         self.update_status()
 
@@ -270,8 +271,11 @@ class JudgeWindow:
  
 
 if __name__ == "__main__":
-
-    window = JudgeWindow(window_size=(300,225))
+    is_on_top=False
+    for arg in sys.argv[1:]:
+        if arg == '-t':     # 常時最前面に表示
+            is_on_top=True
+    window = JudgeWindow(window_size=(300,225), on_top=is_on_top)
     # メインループ
     window.mainloop()
 
