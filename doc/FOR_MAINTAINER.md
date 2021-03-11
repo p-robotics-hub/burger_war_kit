@@ -356,7 +356,7 @@ docker pull ghcr.io/p-robotics-hub/burger-war-kit:test.XXX
 bash commands/docker-launch.sh -R -v test.4
 ```
 
-あとは、通常の操作(kit.shなど)で動作確認が行って下さい。
+あとは、通常の操作(kit.shなど)で動作確認を行って下さい。
 
 <br />
 
