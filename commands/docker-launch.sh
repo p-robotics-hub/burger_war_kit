@@ -3,7 +3,7 @@
 #-burger-war-kitのDockerコンテナを起動する
 #-
 #+[USAGE]
-#+  $0 [-a RUNオプション] [-f][-r] [-v イメージのバージョン] [-w WSディレクトリ] [-h]
+#+  $0 [-a RUNオプション] [-f][-r][-R] [-v イメージのバージョン] [-w WSディレクトリ] [-h]
 #+
 #-[OPTIONS]
 #-  -a options    'docker run'に追加で渡す引数を指定（複数回指定可能）
