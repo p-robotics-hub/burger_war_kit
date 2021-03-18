@@ -425,7 +425,11 @@ mainブランチでの自動テスト時に作成されるburger-war-kitイメ�
 
 `latest`を付与することで、burger_war_devのDockerイメージのビルド時に、最新のburger-war-kitイメージを利用できるようにします。
 
-具体的には、ブラウザで以下のページを開き、リリース用のGitHub Actionsを実行します。
+ワークフローとバージョンの関係は以下のように成っています。
+
+![ワークフローとバージョンの関係](https://user-images.githubusercontent.com/76457573/111576792-7fc02180-87f4-11eb-99df-da38fed23b9e.png)
+
+リリース用のGitHub Actionsは以下のページから実行できます。
 
 [burger_war_kitのworkflows](https://github.com/p-robotics-hub/burger_war_kit/actions)
 
