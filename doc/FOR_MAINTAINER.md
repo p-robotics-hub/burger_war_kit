@@ -58,9 +58,9 @@ burger-war-kitイメージの作成に関連するファイルは以下となり
 ```
 burger_war_kit
 |-- .github/workflows
-|   |-- image-release.yml         ... burger-war-kitイメージに正式バージョンを付与するworkflowファイル
-|   |-- image-test.yml            ... burger-war-kitイメージを自動ビルドとテストするworkflowファイル
-|   |-- update_toc.yml            ... ドキュメントの目次を作成・更新するworkflowファイル
+|   |-- image-release.yml         ... burger-war-kitイメージに正式バージョンを付与するワークフローファイル
+|   |-- image-test.yml            ... burger-war-kitイメージを自動ビルドとテストするワークフローファイル
+|   |-- update_toc.yml            ... ドキュメントの目次を作成・更新するワークフローファイル
 |-- commands
 |   |-- config.sh                 ... 各スクリプトで参照する共通設定ファイル
 |   |-- docker-build.sh           ... Dockerイメージをビルドするためのスクリプト
@@ -436,11 +436,11 @@ mainブランチでの自動テスト時に作成されるburger-war-kitイメ�
 ![リリース用workflow](https://user-images.githubusercontent.com/76457573/110589598-01db9500-81ba-11eb-8957-012c15658e04.png)
 
 以下の必要な項目を入力して、「Run workflow」をクリックして下さい。  
-workflowの実行は2分ほどで完了します。
+ワークフローの実行は2分ほどで完了します。
 
 |設定項目|説明
 |:-------|:---
-|Use workflow form|workflowを実行するブランチを指定 (通常はmainを選択して下さい)
+|Use workflow form|ワークフローを実行するブランチを指定 (通常はmainを選択して下さい)
 |テストバージョン|バージョンを付与するテストバージョン(`test.N`)を指定して下さい
 |付与するリリースバージョン|`4.N.n`の形式でバージョンを指定して下さい
 |latestバージョンの付与|`yes`指定時、`latest`バージョンとして公開します
@@ -465,7 +465,7 @@ workflowの実行は2分ほどで完了します。
 ## 補足
 ### A. Personal access token の作成
 -------------------------------------------------------------------------------
-burger-war-kitイメージをdocker-push.shを使用してghcr.ioにプッシュするためには、各自のGitHubアカウントで`Personal access token`を作成する必要があります。
+burger-war-kitイメージを`commands/docker-push.sh`を使用してghcr.ioにプッシュするためには、各自のGitHubアカウントで`Personal access token`を作成する必要があります。
 
 以下の手順に従って、[こちらのページ](https://github.com/settings/tokens)から作成して下さい。
 
