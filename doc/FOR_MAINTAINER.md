@@ -489,7 +489,7 @@ burger-war-kitイメージを`commands/docker-push.sh`を使用してghcr.ioに�
 
 <br />
 
-#### 4. 生成された Personal access token をファイルに保存
+#### 3. 生成された Personal access token をファイルに保存
 
 以下のコマンドを実行して、`Personal access token`を保存するファイルを作成して下さい。
 
