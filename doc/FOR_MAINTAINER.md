@@ -32,6 +32,8 @@ burger_war_kitリポジトリでは、[burger_war_dev](https://github.com/p-robo
   - [7.3 burger-war-devイメージでの動作確認](#73-burger-war-dev%E3%82%A4%E3%83%A1%E3%83%BC%E3%82%B8%E3%81%A7%E3%81%AE%E5%8B%95%E4%BD%9C%E7%A2%BA%E8%AA%8D)
 - [8. mainブランチにマージ](#8-main%E3%83%96%E3%83%A9%E3%83%B3%E3%83%81%E3%81%AB%E3%83%9E%E3%83%BC%E3%82%B8)
 - [9. burger-war-kitイメージをリリース](#9-burger-war-kit%E3%82%A4%E3%83%A1%E3%83%BC%E3%82%B8%E3%82%92%E3%83%AA%E3%83%AA%E3%83%BC%E3%82%B9)
+  - [9.1 リリース用のワークフロー実行方法](#91-%E3%83%AA%E3%83%AA%E3%83%BC%E3%82%B9%E7%94%A8%E3%81%AE%E3%83%AF%E3%83%BC%E3%82%AF%E3%83%95%E3%83%AD%E3%83%BC%E5%AE%9F%E8%A1%8C%E6%96%B9%E6%B3%95)
+  - [9.2 ワークフローとバージョンの関係](#92-%E3%83%AF%E3%83%BC%E3%82%AF%E3%83%95%E3%83%AD%E3%83%BC%E3%81%A8%E3%83%90%E3%83%BC%E3%82%B8%E3%83%A7%E3%83%B3%E3%81%AE%E9%96%A2%E4%BF%82)
 - [補足](#%E8%A3%9C%E8%B6%B3)
   - [A. Personal access token の作成](#a-personal-access-token-%E3%81%AE%E4%BD%9C%E6%88%90)
   - [B. 手動でghcr.ioにプッシュしたい場合](#b-%E6%89%8B%E5%8B%95%E3%81%A7ghcrio%E3%81%AB%E3%83%97%E3%83%83%E3%82%B7%E3%83%A5%E3%81%97%E3%81%9F%E3%81%84%E5%A0%B4%E5%90%88)
@@ -58,9 +60,9 @@ burger-war-kitイメージの作成に関連するファイルは以下となり
 ```
 burger_war_kit
 |-- .github/workflows
-|   |-- image-release.yml         ... burger-war-kitイメージに正式バージョンを付与するworkflowファイル
-|   |-- image-test.yml            ... burger-war-kitイメージを自動ビルドとテストするworkflowファイル
-|   |-- update_toc.yml            ... ドキュメントの目次を作成・更新するworkflowファイル
+|   |-- image-release.yml         ... burger-war-kitイメージに正式バージョンを付与するワークフローファイル
+|   |-- image-test.yml            ... burger-war-kitイメージを自動ビルドとテストするワークフローファイル
+|   |-- update_toc.yml            ... ドキュメントの目次を作成・更新するワークフローファイル
 |-- commands
 |   |-- config.sh                 ... 各スクリプトで参照する共通設定ファイル
 |   |-- docker-build.sh           ... Dockerイメージをビルドするためのスクリプト
@@ -98,7 +100,7 @@ devブランチへのマージと、mainブランチへのマージはリポジ�
 
 ソフトの修正からリリースまでのブランチごとの作業は以下のイメージになります。
 
-![リリースまでの流れ](https://user-images.githubusercontent.com/76457573/109241862-66433f80-781d-11eb-863b-81a49bd1bdb7.png)
+![リリースまでの流れ](https://user-images.githubusercontent.com/76457573/111945803-ab594980-8b1d-11eb-9630-a577aaf0781f.png)
 
 mainへのマージ後、不要になった開発用ブランチは削除して下さい。
 
@@ -425,7 +427,9 @@ mainブランチでの自動テスト時に作成されるburger-war-kitイメ�
 
 `latest`を付与することで、burger_war_devのDockerイメージのビルド時に、最新のburger-war-kitイメージを利用できるようにします。
 
-具体的には、ブラウザで以下のページを開き、リリース用のGitHub Actionsを実行します。
+### 9.1 リリース用のワークフロー実行方法
+-------------------------------------------------------------------------------
+リリース用のワークフローは以下のページから実行します。
 
 [burger_war_kitのworkflows](https://github.com/p-robotics-hub/burger_war_kit/actions)
 
@@ -434,17 +438,15 @@ mainブランチでの自動テスト時に作成されるburger-war-kitイメ�
 ![リリース用workflow](https://user-images.githubusercontent.com/76457573/110589598-01db9500-81ba-11eb-8957-012c15658e04.png)
 
 以下の必要な項目を入力して、「Run workflow」をクリックして下さい。  
-workflowの実行は2分ほどで完了します。
+ワークフローの実行は2分ほどで完了します。
 
 |設定項目|説明
 |:-------|:---
-|Use workflow form|workflowを実行するブランチを指定 (通常はmainを選択して下さい)
-|テスト実施バージョン|バージョンを付与するテスト実施バージョン(`test.N`)を指定して下さい
+|Use workflow form|ワークフローを実行するブランチを指定 (通常はmainを選択して下さい)
+|テストバージョン|バージョンを付与するテストバージョン(`test.N`)を指定して下さい
 |付与するリリースバージョン|`4.N.n`の形式でバージョンを指定して下さい
 |latestバージョンの付与|`yes`指定時、`latest`バージョンとして公開します
 |入力値のFormatチェックの実施|`yes`指定時、誤ったバージョンの付与を防ぐ為、入力されたバージョンのFormatをチェックします
-
-<br />
 
 実行完了後は、以下のページで意図通りのバージョンが付与されているか確認して下さい。
 
@@ -454,11 +456,18 @@ workflowの実行は2分ほどで完了します。
 
 <br />
 
+### 9.2 ワークフローとバージョンの関係
+-------------------------------------------------------------------------------
+ワークフローとバージョンの関係は以下のようになっています。
+
+![ワークフローとバージョンの関係](https://user-images.githubusercontent.com/76457573/111576792-7fc02180-87f4-11eb-99df-da38fed23b9e.png)
+
+<br />
 
 ## 補足
 ### A. Personal access token の作成
 -------------------------------------------------------------------------------
-burger-war-kitイメージをdocker-push.shを使用してghcr.ioにプッシュするためには、各自のGitHubアカウントで`Personal access token`を作成する必要があります。
+burger-war-kitイメージを`commands/docker-push.sh`を使用してghcr.ioにプッシュするためには、各自のGitHubアカウントで`Personal access token`を作成する必要があります。
 
 以下の手順に従って、[こちらのページ](https://github.com/settings/tokens)から作成して下さい。
 
@@ -480,7 +489,7 @@ burger-war-kitイメージをdocker-push.shを使用してghcr.ioにプッシュ
 
 <br />
 
-#### 4. 生成された Personal access token をファイルに保存
+#### 3. 生成された Personal access token をファイルに保存
 
 以下のコマンドを実行して、`Personal access token`を保存するファイルを作成して下さい。
 
