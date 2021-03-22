@@ -100,7 +100,7 @@ devブランチへのマージと、mainブランチへのマージはリポジ�
 
 ソフトの修正からリリースまでのブランチごとの作業は以下のイメージになります。
 
-![リリースまでの流れ](https://user-images.githubusercontent.com/76457573/109241862-66433f80-781d-11eb-863b-81a49bd1bdb7.png)
+![リリースまでの流れ](https://user-images.githubusercontent.com/76457573/111945803-ab594980-8b1d-11eb-9630-a577aaf0781f.png)
 
 mainへのマージ後、不要になった開発用ブランチは削除して下さい。
 
